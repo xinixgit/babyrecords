@@ -1,6 +1,8 @@
 package main
 
 import (
+	"flag"
+	"fmt"
 	recDb "xinxin/babyrecords-service/db"
 	"xinxin/babyrecords-service/svc"
 
@@ -11,7 +13,14 @@ import (
 )
 
 func main() {
-	db, err := sqlx.Connect("postgres", "host=localhost port=5433 user=postgres password=docker_user dbname=postgres sslmode=disable")
+	dbhost := flag.String("dbhost", "", "")
+	dbport := flag.Int("dbport", -1, "")
+	dbname := flag.String("dbname", "", "name of the db")
+	dbusr := flag.String("dbusr", "", "user of the db")
+	dbpwd := flag.String("dbpwd", "", "pasword of the db")
+
+	opts := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", *dbhost, *dbport, *dbusr, *dbpwd, *dbname)
+	db, err := sqlx.Connect(*dbname, opts)
 	if err != nil {
 		panic(err)
 	}

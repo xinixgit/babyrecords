@@ -1,0 +1,26 @@
+---
+version: "3.8"
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      - POSTGRES_USERNAME=${postgres_usr}
+      - POSTGRES_PASSWORD=${postgres_pwd}
+    volumes:
+      - pgdatavol:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+  babyrecord:
+    build: ./
+    environment:
+      - dbhost=${postgres_host}
+      - dbport=${postgres_port}
+      - dbname=${postgres_name}
+      - dbusr=${postgres_usr}
+      - dbpwd=${postgres_pwd}
+    depends_on:
+      - postgres
+volumes:
+  pgdatavol:
