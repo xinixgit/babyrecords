@@ -1,10 +1,10 @@
 package model
 
-type FoodType string
+import "time"
 
 const (
-	Milk     FoodType = "milk"
-	BabyFood FoodType = "babyfood"
+	Milk     string = "milk"
+	BabyFood string = "babyfood"
 )
 
 type DiaperSize string
@@ -15,14 +15,15 @@ const (
 )
 
 type FeedRecord struct {
-	FoodType FoodType `json:"type"`
-	Vol      int      `json:"vol"`
-	Unit     string   `json:"unit"`
+	FoodType  string     `json:"type"`
+	Vol       int        `json:"vol"`
+	Unit      string     `json:"unit"`
+	CreatedAt *time.Time `json:"created_at"`
 }
 
 type SleepRecord struct {
-	StartTime string `json:"startTs"`
-	EndTime   string `json:"endTs"`
+	StartTime string `json:"start_ts"`
+	EndTime   string `json:"end_ts"`
 }
 
 type DiaperRecord struct {

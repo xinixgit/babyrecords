@@ -2,33 +2,41 @@ package db
 
 import (
 	"encoding/json"
+	"fmt"
 	"time"
 	"xinxin/babyrecords-service/model"
 )
 
-type recordType string
-
 const (
-	feedRecord   recordType = "feed"
-	diaperRecord recordType = "diaper"
-	sleepRecord  recordType = "sleep"
+	feedRecord   string = "feed"
+	diaperRecord string = "diaper"
+	sleepRecord  string = "sleep"
 )
 
-type babyRecord struct {
-	recordType recordType
-	data       interface{}
-	createdAt  time.Time
+type BabyRecord struct {
+	RecordType string    `db:"record_type"`
+	Data       []byte    `db:"data"`
+	CreatedAt  time.Time `db:"created_at"`
 }
 
-func mapFeedRecord(rec *model.FeedRecord) (*babyRecord, error) {
+func mapFeedRecord(rec *model.FeedRecord) (*BabyRecord, error) {
 	data, err := json.Marshal(rec)
 	if err != nil {
 		return nil, err
 	}
 
-	return &babyRecord{
-		recordType: feedRecord,
-		data:       data,
-		createdAt:  time.Now(),
+	return &BabyRecord{
+		RecordType: feedRecord,
+		Data:       data,
+		CreatedAt:  time.Now(),
 	}, nil
+}
+
+func mapToFeedRecord(rec *BabyRecord) (model.FeedRecord, error) {
+	var feedRec model.FeedRecord
+	if err := json.Unmarshal(rec.Data, &feedRec); err != nil {
+		return model.FeedRecord{}, fmt.Errorf("json unmarshal failed: %w", err)
+	}
+	feedRec.CreatedAt = &rec.CreatedAt
+	return feedRec, nil
 }

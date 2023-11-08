@@ -6,10 +6,12 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
+
+	_ "github.com/lib/pq"
 )
 
 func main() {
-	db, err := sqlx.Connect("postgres", "user=foo dbname=bar sslmode=disable")
+	db, err := sqlx.Connect("postgres", "host=localhost port=5433 user=postgres password=docker_user dbname=postgres sslmode=disable")
 	if err != nil {
 		panic(err)
 	}
@@ -18,7 +20,7 @@ func main() {
 	recHandler := svc.RecordHandler{Repo: repo}
 
 	router := gin.Default()
-	router.GET("/records", recHandler.GetRecords)
-	router.POST("/record", recHandler.SaveRecord)
+	router.GET("/record/all", recHandler.GetAllRecords)
+	router.POST("/record/save", recHandler.SaveRecord)
 	router.Run("localhost:8080")
 }
