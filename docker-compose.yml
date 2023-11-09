@@ -19,7 +19,7 @@ services:
       migration:
         condition: service_completed_successfully
     ports:
-      - "8080:8080"
+      - ${svcportbinding}
     networks:
       brnet:
         ipv4_address: "10.50.0.11"
