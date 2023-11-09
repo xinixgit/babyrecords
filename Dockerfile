@@ -5,8 +5,6 @@ WORKDIR /usr/src/app
 COPY go.mod go.sum ./
 RUN go mod download && go mod verify
 
-# RUN git clone https://github.com/vishnubob/wait-for-it.git
-
 COPY . .
 RUN go build -o /usr/local/bin/app ./
 
