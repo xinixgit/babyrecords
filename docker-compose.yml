@@ -1,26 +1,66 @@
 ---
 version: "3.8"
 services:
+  babyrecord:
+    build:
+      context: .
+    container_name: babyrecord-svc
+    image: babyrecord-svc
+    environment:
+      - svrhost=localhost
+      - dbhost
+      - dbport
+      - dbusr
+      - dbname
+      - PGPASSWORD=${dbpwd}
+    depends_on:
+      postgres:
+        condition: service_started
+      migration:
+        condition: service_completed_successfully
+    ports:
+      - "8080:8080"
+    networks:
+      brnet:
+        ipv4_address: "10.50.0.11"
+    restart: unless-stopped
+
   postgres:
     image: postgres:latest
     container_name: postgres
     environment:
-      - POSTGRES_USERNAME=${postgres_usr}
-      - POSTGRES_PASSWORD=${postgres_pwd}
+      - POSTGRES_USER=${dbusr}
+      - POSTGRES_PASSWORD=${dbpwd}
     volumes:
       - pgdatavol:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    networks:
+      brnet:
+        ipv4_address: "10.50.0.10"
     restart: unless-stopped
-  babyrecord:
-    build: ./
+
+  migration:
+    image: babyrecord-svc:latest
+    command: psql -h ${dbhost} -U ${dbusr} -d ${dbname} -w -f /usr/src/app/db.sql
     environment:
-      - dbhost=${postgres_host}
-      - dbport=${postgres_port}
-      - dbname=${postgres_name}
-      - dbusr=${postgres_usr}
-      - dbpwd=${postgres_pwd}
+      - dbhost
+      - dbusr
+      - dbname
+      - PGPASSWORD=${dbpwd}
+    networks:
+      brnet:
+        ipv4_address: "10.50.0.20"
     depends_on:
-      - postgres
+      postgres:
+        condition: service_started
+
+networks:
+  brnet:
+    ipam:
+      driver: default
+      config:
+        - subnet: "10.50.0.0/24"
+
 volumes:
   pgdatavol:
