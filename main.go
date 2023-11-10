@@ -35,7 +35,7 @@ func main() {
 	recHandler := svc.RecordHandler{Repo: repo}
 
 	router := gin.Default()
-	router.GET("/record/all", recHandler.GetAllRecords)
+	router.GET("/records", recHandler.GetAllRecords)
 	router.POST("/record/save", recHandler.SaveRecord)
 	router.Run(fmt.Sprintf("%s:8080", *svrhost))
 }

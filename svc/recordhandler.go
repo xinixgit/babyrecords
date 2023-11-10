@@ -19,13 +19,24 @@ type RecordHandler struct {
 }
 
 func (h *RecordHandler) GetAllRecords(c *gin.Context) {
-	records, err := h.Repo.GetFeedRecords()
+	resp := model.GetAllRecordsResponse{}
+	feedrecs, err := h.Repo.GetFeedRecords()
 	if err != nil {
 		log.Printf("unable to fetch records: %s", err)
 		c.JSON(http.StatusInternalServerError, err_internalerr)
 		return
 	}
-	c.JSON(http.StatusOK, records)
+	resp.FeedRecords = feedrecs
+
+	sleeprecs, err := h.Repo.GetSleepRecords()
+	if err != nil {
+		log.Printf("unable to fetch records: %s", err)
+		c.JSON(http.StatusInternalServerError, err_internalerr)
+		return
+	}
+	resp.SleepRecord = sleeprecs
+
+	c.JSON(http.StatusOK, resp)
 }
 
 func (h *RecordHandler) SaveRecord(c *gin.Context) {
@@ -39,6 +50,12 @@ func (h *RecordHandler) SaveRecord(c *gin.Context) {
 	switch req.RecordType {
 	case model.FeedRecordType:
 		if err := h.Repo.SaveFeedRecord(&req.FeedRecord); err != nil {
+			log.Printf("unable to save: %s", err)
+			c.JSON(http.StatusInternalServerError, err_badrequest)
+			return
+		}
+	case model.SleepRecordType:
+		if err := h.Repo.SaveSleepRecord(&req.SleepRecord); err != nil {
 			log.Printf("unable to save: %s", err)
 			c.JSON(http.StatusInternalServerError, err_badrequest)
 			return

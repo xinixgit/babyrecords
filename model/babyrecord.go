@@ -7,11 +7,9 @@ const (
 	BabyFood string = "babyfood"
 )
 
-type DiaperSize string
-
 const (
-	Small DiaperSize = "S"
-	Large DiaperSize = "L"
+	Small string = "S"
+	Large string = "L"
 )
 
 type FeedRecord struct {
@@ -22,10 +20,12 @@ type FeedRecord struct {
 }
 
 type SleepRecord struct {
-	StartTime string `json:"start_ts"`
-	EndTime   string `json:"end_ts"`
+	StartTime string     `json:"start_ts"`
+	EndTime   string     `json:"end_ts"`
+	CreatedAt *time.Time `json:"created_at"`
 }
 
 type DiaperRecord struct {
-	Size string `json:"size"`
+	Size      string     `json:"size"`
+	CreatedAt *time.Time `json:"created_at"`
 }

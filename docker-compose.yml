@@ -33,6 +33,8 @@ services:
       - POSTGRES_PASSWORD=${dbpwd}
     volumes:
       - pgdatavol:/var/lib/postgresql/data
+    ports:
+      - 127.0.0.1:5432:5432
     networks:
       brnet:
         ipv4_address: "10.50.0.10"

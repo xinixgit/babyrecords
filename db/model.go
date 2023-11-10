@@ -7,10 +7,12 @@ import (
 	"xinxin/babyrecords-service/model"
 )
 
+type recordType string
+
 const (
-	feedRecord   string = "feed"
-	diaperRecord string = "diaper"
-	sleepRecord  string = "sleep"
+	feedRecordType   recordType = "feed"
+	diaperRecordType recordType = "diaper"
+	sleepRecordType  recordType = "sleep"
 )
 
 type BabyRecord struct {
@@ -19,17 +21,12 @@ type BabyRecord struct {
 	CreatedAt  time.Time `db:"created_at"`
 }
 
-func mapFeedRecord(rec *model.FeedRecord) (*BabyRecord, error) {
-	data, err := json.Marshal(rec)
-	if err != nil {
-		return nil, err
-	}
+func mapFeedRecord(rec *model.FeedRecord) (BabyRecord, error) {
+	return mapToBabyRecord(feedRecordType, rec)
+}
 
-	return &BabyRecord{
-		RecordType: feedRecord,
-		Data:       data,
-		CreatedAt:  time.Now(),
-	}, nil
+func mapSleepRecord(rec *model.SleepRecord) (BabyRecord, error) {
+	return mapToBabyRecord(sleepRecordType, rec)
 }
 
 func mapToFeedRecord(rec *BabyRecord) (model.FeedRecord, error) {
@@ -37,6 +34,30 @@ func mapToFeedRecord(rec *BabyRecord) (model.FeedRecord, error) {
 	if err := json.Unmarshal(rec.Data, &feedRec); err != nil {
 		return model.FeedRecord{}, fmt.Errorf("json unmarshal failed: %w", err)
 	}
-	feedRec.CreatedAt = &rec.CreatedAt
+	createdAt := rec.CreatedAt.Add(0)
+	feedRec.CreatedAt = &createdAt
 	return feedRec, nil
+}
+
+func mapToSleepRecord(dbRec *BabyRecord) (model.SleepRecord, error) {
+	var rec model.SleepRecord
+	if err := json.Unmarshal(dbRec.Data, &rec); err != nil {
+		return model.SleepRecord{}, fmt.Errorf("json unmarshal failed: %w", err)
+	}
+	createdAt := dbRec.CreatedAt.Add(0)
+	rec.CreatedAt = &createdAt
+	return rec, nil
+}
+
+func mapToBabyRecord(recType recordType, rec any) (BabyRecord, error) {
+	data, err := json.Marshal(rec)
+	if err != nil {
+		return BabyRecord{}, err
+	}
+
+	return BabyRecord{
+		RecordType: string(recType),
+		Data:       data,
+		CreatedAt:  time.Now(),
+	}, nil
 }
