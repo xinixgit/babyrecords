@@ -2,9 +2,10 @@ import Form from '../components/Form'
 import TimeInput from '../components/TimeInput';
 import { useContext } from 'react';
 import { CurrentContext } from '../App';
+import { SaveRecord } from '../http/Api';
 
 const PageTime = () => {
-  const req = useContext(CurrentContext);
+  const ctx = useContext(CurrentContext);
 
   let hr: string, min: string, amPm: string;
   const handleHrChange = (val: string) => { hr = val }
@@ -12,8 +13,8 @@ const PageTime = () => {
   const handleAmPmChange = (val: string) => { amPm = val }
 
   const onSubmit = () => {
-    req.feedTime = hr + ':' + min + ' ' + amPm
-    console.log('submit request: ' + JSON.stringify(req))
+    ctx.time = hr + ':' + min + ' ' + amPm
+    SaveRecord(ctx)
   }
 
   return (

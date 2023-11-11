@@ -5,21 +5,19 @@ import PageHome from './pages/PageHome'
 import PageFeed from './pages/PageFeed'
 import PageTime from './pages/PageTime'
 
-const contextObj = () => {
-  return {
-    recType: '',
-    feedType: '',
-    feedVol: 0,
-    feedTime: ''
-  };
+const emptyContext = {
+  type: '',
+  feedType: '',
+  vol: 0,
+  time: ''
 }
 
-export const CurrentContext = createContext(contextObj());
+export const CurrentContext = createContext(emptyContext);
 
 function App() {
   return (
     <div className="container text-center">
-      <CurrentContext.Provider value={contextObj()}>
+      <CurrentContext.Provider value={emptyContext}>
         <BrowserRouter>
           <Routes>
             <Route index element={<PageHome />} />

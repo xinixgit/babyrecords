@@ -7,13 +7,13 @@ import { CurrentContext } from '../App';
 
 const PageFeed = () => {
   const navigate = useNavigate()
-  const req = useContext(CurrentContext)
+  const ctx = useContext(CurrentContext)
 
   let input: string, feedType: string;
 
   const handleClick = () => {
-    req.feedVol = parseInt(input)
-    req.feedType = feedType
+    ctx.vol = parseInt(input)
+    ctx.feedType = feedType
     navigate("/time")
   }
 
