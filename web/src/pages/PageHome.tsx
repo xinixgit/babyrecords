@@ -1,15 +1,14 @@
 import GiantButton from '../components/GiantButton'
 import { useNavigate } from "react-router-dom";
+import { useContext } from 'react';
+import { CurrentContext } from '../App';
 
-interface Props {
-  onClick: (name: string) => void;
-}
-
-export default function PageHome({ onClick }: Props) {
+export default function PageHome() {
   const navigate = useNavigate();
+  const req = useContext(CurrentContext);
 
   const handleClick = (name: string) => {
-    onClick(name);
+    req.recType = name;
     navigate("/" + name);
   }
 

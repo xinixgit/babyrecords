@@ -5,16 +5,16 @@ interface Props {
   children: ReactNode;
   btnName: string;
   btnStyleClass: string;
-  btnOnClick: () => void;
+  onSubmit: () => void;
 }
 
-const Form = ({ children, btnName, btnStyleClass, btnOnClick }: Props) => {
+const Form = ({ children, btnName, btnStyleClass, onSubmit }: Props) => {
   return (
     <div className="giant-font stdform">
       {children}
       <div className="row align-items-center justify-content-center">
         <div className="col col-8">
-          <GiantButton name={btnName} styleClass={btnStyleClass} onClick={btnOnClick} />
+          <GiantButton name={btnName} styleClass={btnStyleClass} onClick={onSubmit} />
         </div>
       </div>
     </div>

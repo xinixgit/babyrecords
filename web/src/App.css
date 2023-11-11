@@ -5,17 +5,20 @@
 }
 
 .stdform {
-  padding-top: 40%;
+  padding-top: 20%;
 }
 
+.stdform .row,
+.stdform select {
+  margin-bottom: 20px;
+}
+
+.giant-font input,
 .giant-font div {
   font-size: 2em;
 }
 
-.giant-font input {
-  font-size: 2em;
-}
-
-.giant-font .btn {
+.giant-font .btn,
+.giant-font select {
   font-size: 1em;
 }
