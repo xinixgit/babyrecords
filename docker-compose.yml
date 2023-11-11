@@ -1,14 +1,14 @@
 ---
 version: "3.8"
 services:
-  babyrecord:
+  svc:
     build:
       context: .
     container_name: babyrecord-svc
     image: babyrecord-svc
     environment:
       - svrhost
-      - dbhost
+      - dbhost=${dbinternalip}
       - dbport
       - dbusr
       - dbname
@@ -22,7 +22,7 @@ services:
       - ${svcportbinding}
     networks:
       brnet:
-        ipv4_address: "10.50.0.11"
+        ipv4_address: ${svcinternalip}
     restart: unless-stopped
 
   postgres:
@@ -33,18 +33,16 @@ services:
       - POSTGRES_PASSWORD=${dbpwd}
     volumes:
       - pgdatavol:/var/lib/postgresql/data
-    ports:
-      - 127.0.0.1:5432:5432
     networks:
       brnet:
-        ipv4_address: "10.50.0.10"
+        ipv4_address: ${dbinternalip}
     restart: unless-stopped
 
   migration:
     image: babyrecord-svc:latest
-    command: psql -h ${dbhost} -U ${dbusr} -d ${dbname} -w -f /usr/src/app/db.sql
+    command: psql -h ${dbinternalip} -U ${dbusr} -d ${dbname} -w -f /usr/src/app/db.sql
     environment:
-      - dbhost
+      - dbhost=${dbinternalip}
       - dbusr
       - dbname
       - PGPASSWORD=${dbpwd}
@@ -54,6 +52,25 @@ services:
     depends_on:
       postgres:
         condition: service_started
+
+  web:
+    build:
+      context: ./web
+    container_name: babyrecord-web
+    image: babyrecord-web
+    depends_on:
+      svc:
+        condition: service_started
+    environment:
+      - webport
+      - svcinternalip
+      - svcport
+    ports:
+      - ${webportbinding}
+    networks:
+      brnet:
+        ipv4_address: "10.50.0.12"
+    restart: unless-stopped
 
 networks:
   brnet:
