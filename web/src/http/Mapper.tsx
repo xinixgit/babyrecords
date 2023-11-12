@@ -10,6 +10,7 @@ export function CreateSaveRecordRequestFromContext(ctx: Context): SaveRecordRequ
     req.feed_record = {
       type: ctx.feedType,
       vol: ctx.vol,
+      feed_time: ctx.time,
       unit: 'ml'
     }
     return req

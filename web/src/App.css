@@ -19,6 +19,7 @@
 }
 
 .giant-font .btn,
-.giant-font select {
+.giant-font select,
+.giant-font option {
   font-size: 1em;
 }

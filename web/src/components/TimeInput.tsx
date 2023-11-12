@@ -1,5 +1,6 @@
 import NumberInput from './NumberInput';
 import SelectInput from './SelectInput';
+import { AM, PM } from '../Model'
 
 interface Props {
   handleHrChange: (val: string) => void
@@ -10,11 +11,11 @@ interface Props {
 const TimeInput = ({ handleHrChange, handleMinChange, handleAmPmChange }: Props) => {
   const amPm = [
     {
-      val: 'am',
+      val: AM,
       txt: '上午'
     },
     {
-      val: 'pm',
+      val: PM,
       txt: '下午'
     }
   ]

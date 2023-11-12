@@ -28,6 +28,7 @@ type FeedRecord struct {
 	FoodType  string     `json:"type"`
 	Vol       int        `json:"vol"`
 	Unit      string     `json:"unit"`
+	FeedTime  string     `json:"feed_time"`
 	CreatedAt *time.Time `json:"created_at"`
 }
 
