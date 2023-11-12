@@ -4,7 +4,7 @@ import Form from '../components/Form'
 import TimeInput from '../components/TimeInput';
 import { CurrentContext } from '../App';
 import { SaveRecord } from '../http/Api';
-import { PM } from '../Model'
+import { PM, SUCCESS } from '../Model'
 
 const PageTime = () => {
   const navigate = useNavigate()
@@ -17,7 +17,7 @@ const PageTime = () => {
 
   const onSubmit = () => {
     ctx.time = toISOTime(hr, min, amPm)
-    SaveRecord(ctx, () => navigate("/"))
+    SaveRecord(ctx, () => navigate("/ack?status=" + SUCCESS))
   }
 
   return (

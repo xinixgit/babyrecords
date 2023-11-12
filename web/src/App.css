@@ -1,6 +1,12 @@
-.giant-btn {
+.giant-square {
   width: 100%;
   height: 220px;
+  margin-top: 30px;
+}
+
+.medium-square {
+  width: 100%;
+  height: 160px;
   margin-top: 30px;
 }
 
@@ -22,4 +28,8 @@
 .giant-font select,
 .giant-font option {
   font-size: 1em;
+}
+
+.status-success {
+  color: green;
 }

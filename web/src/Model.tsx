@@ -5,6 +5,8 @@ export const RecordTypeDiaper = 'diaper'
 export const AM = 'am'
 export const PM = 'pm'
 
+export const SUCCESS = "success"
+
 export interface Context {
   type: string
   feedType: string

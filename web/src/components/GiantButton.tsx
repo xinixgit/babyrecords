@@ -8,7 +8,7 @@ const GiantButton = ({ name, styleClass, onClick }: Props) => {
   return (
     <button
       type="button"
-      className={"giant-btn btn " + styleClass}
+      className={"giant-square btn " + styleClass}
       onClick={onClick}
     >
       {name}
