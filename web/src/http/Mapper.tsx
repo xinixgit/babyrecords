@@ -9,9 +9,9 @@ export function CreateSaveRecordRequestFromContext(ctx: Context): SaveRecordRequ
   if (ctx.type == RecordTypeFeed) {
     req.feed_record = {
       type: ctx.feedType,
-      vol: ctx.vol,
-      feed_time: ctx.time,
-      unit: 'ml'
+      vol: ctx.feedVol,
+      unit: ctx.feedUnit,
+      feed_time: ctx.time
     }
     return req
   }

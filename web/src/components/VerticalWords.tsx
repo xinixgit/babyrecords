@@ -8,7 +8,7 @@ const VerticalWords = ({ words, textClass }: Props) => {
     <div className="giant-font">
       {
         words.map((word) => (
-          <div className="row align-items-center justify-content-center medium-square">
+          <div key={word} className="row align-items-center justify-content-center medium-square">
             <div className={"col col-8 " + textClass}>
               {word}
             </div>

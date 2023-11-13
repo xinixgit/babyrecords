@@ -5,11 +5,13 @@ import PageHome from './pages/PageHome'
 import PageFeed from './pages/PageFeed'
 import PageTime from './pages/PageTime'
 import PageAck from './pages/PageAck'
+import { Context } from './Model'
 
-const emptyContext = {
+const emptyContext: Context = {
   type: '',
   feedType: '',
-  vol: 0,
+  feedUnit: '',
+  feedVol: 0,
   time: ''
 }
 

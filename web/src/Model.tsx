@@ -10,7 +10,8 @@ export const SUCCESS = "success"
 export interface Context {
   type: string
   feedType: string
-  vol: number
+  feedVol: number
+  feedUnit: string
   time: string
 }
 

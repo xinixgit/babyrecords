@@ -1,45 +1,59 @@
+import { ChangeEvent } from 'react';
 import Form from '../components/Form'
 import NumberInput from '../components/NumberInput';
 import SelectInput from '../components/SelectInput';
 import { useNavigate } from "react-router-dom";
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { CurrentContext } from '../App';
+
+const feedInputs = [
+  {
+    val: 'milk',
+    txt: '奶'
+  },
+  {
+    val: 'babyfood',
+    txt: '辅食'
+  }
+]
+
+const feedLabels = [
+  '毫升',
+  '克'
+]
 
 const PageFeed = () => {
   const navigate = useNavigate()
   const ctx = useContext(CurrentContext)
-
-  let input: string, feedType: string;
+  const [input, setInput] = useState({
+    type: feedInputs[0].val,
+    vol: ""
+  })
+  const [label, setLabel] = useState(feedLabels[0])
 
   const handleClick = () => {
-    ctx.vol = parseInt(input)
-    ctx.feedType = feedType
+    ctx.feedVol = parseInt(input.vol)
+    ctx.feedType = input.type
+    ctx.feedUnit = label
     navigate("/time")
   }
 
-  const handleVolChange = (val: string) => {
-    input = val
+  const handleVolChange = (vol: string) => {
+    input.vol = vol
+    setInput(input)
   }
 
-  const handleFeedTypeChange = (val: string) => {
-    feedType = val
+  const handleFeedTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const idx = e.target.selectedIndex
+    input.type = feedInputs[idx].val
+    setInput(input)
+    setLabel(feedLabels[idx])
   }
-
-  const feedTypes = [
-    {
-      val: 'milk',
-      txt: '奶'
-    },
-    {
-      val: 'babyfood',
-      txt: '辅食'
-    }
-  ]
 
   return (
     <Form btnName="提交" btnStyleClass='btn-primary' onSubmit={handleClick}>
-      <SelectInput handleChange={handleFeedTypeChange} items={feedTypes} />
-      <NumberInput label="毫升" handleChange={handleVolChange} />
+      <SelectInput handleChange={handleFeedTypeChange} items={feedInputs} />
+      <NumberInput label={label} handleChange={handleVolChange} />
     </Form>
   )
 }
