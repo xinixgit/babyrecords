@@ -28,17 +28,18 @@ type FeedRecord struct {
 	FoodType  string     `json:"type"`
 	Vol       int        `json:"vol"`
 	Unit      string     `json:"unit"`
-	FeedTime  string     `json:"feed_time"`
+	Time      string     `json:"time"`
 	CreatedAt *time.Time `json:"created_at"`
 }
 
 type SleepRecord struct {
-	StartTime string     `json:"start_ts"`
-	EndTime   string     `json:"end_ts"`
+	StartTime string     `json:"start_time"`
+	EndTime   string     `json:"end_time"`
 	CreatedAt *time.Time `json:"created_at"`
 }
 
 type DiaperRecord struct {
 	Size      string     `json:"size"`
+	Time      string     `json:"time"`
 	CreatedAt *time.Time `json:"created_at"`
 }

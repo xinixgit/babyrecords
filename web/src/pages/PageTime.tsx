@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, ChangeEvent } from 'react';
 import { useNavigate } from "react-router-dom";
 import Form from '../components/Form'
 import TimeInput from '../components/TimeInput';
@@ -13,11 +13,10 @@ const PageTime = () => {
   let hr: string, min: string, amPm: string;
   const handleHrChange = (val: string) => { hr = val }
   const handleMinChange = (val: string) => { min = val }
-  const handleAmPmChange = (val: string) => { amPm = val }
+  const handleAmPmChange = (e: ChangeEvent<HTMLSelectElement>) => { amPm = e.target.value }
 
   const onSubmit = () => {
     ctx.time = toISOTime(hr, min, amPm)
-    console.log(ctx)
     SaveRecord(ctx, () => navigate("/ack?status=" + SUCCESS))
   }
 

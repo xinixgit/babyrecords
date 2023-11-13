@@ -1,6 +1,7 @@
 package svc
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"xinxin/babyrecords-service/db"
@@ -55,21 +56,27 @@ func (h *RecordHandler) SaveRecord(c *gin.Context) {
 		return
 	}
 
+	if err := validate(req); err != nil {
+		log.Printf("unable to save: %s", err)
+		c.JSON(http.StatusInternalServerError, err_badrequest)
+		return
+	}
+
 	switch req.RecordType {
 	case string(model.FeedRecordType):
-		if err := h.Repo.SaveFeedRecord(&req.FeedRecord); err != nil {
+		if err := h.Repo.SaveFeedRecord(req.FeedRecord); err != nil {
 			log.Printf("unable to save: %s", err)
 			c.JSON(http.StatusInternalServerError, err_badrequest)
 			return
 		}
 	case string(model.SleepRecordType):
-		if err := h.Repo.SaveSleepRecord(&req.SleepRecord); err != nil {
+		if err := h.Repo.SaveSleepRecord(req.SleepRecord); err != nil {
 			log.Printf("unable to save: %s", err)
 			c.JSON(http.StatusInternalServerError, err_badrequest)
 			return
 		}
 	case string(model.DiaperRecordType):
-		if err := h.Repo.SaveDiaperRecord(&req.DiaperRecord); err != nil {
+		if err := h.Repo.SaveDiaperRecord(req.DiaperRecord); err != nil {
 			log.Printf("unable to save: %s", err)
 			c.JSON(http.StatusInternalServerError, err_badrequest)
 			return
@@ -81,4 +88,11 @@ func (h *RecordHandler) SaveRecord(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, "")
+}
+
+func validate(req model.CreateRecordRequest) error {
+	if req.FeedRecord == nil && req.DiaperRecord == nil && req.SleepRecord == nil {
+		return fmt.Errorf("no record data is found on this req")
+	}
+	return nil
 }

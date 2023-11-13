@@ -1,3 +1,4 @@
+import { ChangeEvent } from 'react';
 import NumberInput from './NumberInput';
 import SelectInput from './SelectInput';
 import { AM, PM } from '../Model'
@@ -5,7 +6,7 @@ import { AM, PM } from '../Model'
 interface Props {
   handleHrChange: (val: string) => void
   handleMinChange: (val: string) => void
-  handleAmPmChange: (val: string) => void
+  handleAmPmChange: (e: ChangeEvent<HTMLSelectElement>) => void
 }
 
 const TimeInput = ({ handleHrChange, handleMinChange, handleAmPmChange }: Props) => {

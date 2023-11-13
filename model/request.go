@@ -1,10 +1,10 @@
 package model
 
 type CreateRecordRequest struct {
-	RecordType   string       `json:"type"`
-	FeedRecord   FeedRecord   `json:"feed_record"`
-	DiaperRecord DiaperRecord `json:"diaper_record"`
-	SleepRecord  SleepRecord  `json:"sleep_record"`
+	RecordType   string        `json:"type"`
+	FeedRecord   *FeedRecord   `json:"feed_record"`
+	DiaperRecord *DiaperRecord `json:"diaper_record"`
+	SleepRecord  *SleepRecord  `json:"sleep_record"`
 }
 
 type GetAllRecordsResponse struct {

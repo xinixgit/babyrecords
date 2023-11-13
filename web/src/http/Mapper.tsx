@@ -11,7 +11,7 @@ export function CreateSaveRecordRequestFromContext(ctx: Context): SaveRecordRequ
       type: ctx.feedType,
       vol: ctx.feedVol,
       unit: ctx.feedUnit,
-      feed_time: ctx.time
+      time: ctx.time
     }
     return req
   }
@@ -22,7 +22,8 @@ export function CreateSaveRecordRequestFromContext(ctx: Context): SaveRecordRequ
 
   if (ctx.type == RecordTypeDiaper) {
     req.diaper_record = {
-      size: ctx.diaperSize
+      size: ctx.diaperSize,
+      time: ctx.time
     }
     return req
   }

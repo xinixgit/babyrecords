@@ -2,11 +2,12 @@ export interface FeedRecord {
   type: string
   vol: number
   unit: string
-  feed_time: string
+  time: string
 }
 
 export interface DiaperRecord {
   size: string
+  time: string
 }
 
 export interface SaveRecordRequest {
