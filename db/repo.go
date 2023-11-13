@@ -1,7 +1,10 @@
 package db
 
 import (
+	"database/sql"
+	"errors"
 	"fmt"
+	"log"
 	"xinxin/babyrecords-service/model"
 
 	"github.com/jmoiron/sqlx"
@@ -39,6 +42,10 @@ func (r *Repo) GetDiaperRecords() ([]model.DiaperRecord, error) {
 	return getRecords(model.DiaperRecordType, mapToDiaperRecord, r.db)
 }
 
+func (r *Repo) GetLatestSleepRecord() (*model.SleepRecord, error) {
+	return getLatestRecord(model.SleepRecordType, mapToSleepRecord, r.db)
+}
+
 func saveRecord[R model.DomainRecord](
 	recType model.RecordType,
 	rec *R,
@@ -72,4 +79,26 @@ func getRecords[R model.DomainRecord](
 		records[i] = rec
 	}
 	return records, nil
+}
+
+func getLatestRecord[R model.DomainRecord](
+	recType model.RecordType,
+	mapper func(*BabyRecord) (R, error),
+	db *sqlx.DB,
+) (*R, error) {
+	dbRecord := BabyRecord{}
+	err := db.Get(&dbRecord, getLatestRecordByTypeSql, string(recType))
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			log.Printf("no latest record of type %s: %s", recType, err)
+			return nil, nil
+		}
+		return nil, fmt.Errorf("unable to select %s records from db: %w", recType, err)
+	}
+
+	rec, err := mapper(&dbRecord)
+	if err != nil {
+		return nil, err
+	}
+	return &rec, nil
 }

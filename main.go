@@ -36,6 +36,7 @@ func main() {
 
 	router := gin.Default()
 	router.GET("/records", recHandler.GetAllRecords)
+	router.GET("/records/sleep/latest", recHandler.GetLatestSleepRecord)
 	router.POST("/record/save", recHandler.SaveRecord)
 	router.Run(fmt.Sprintf("%s:8080", *svrhost))
 }

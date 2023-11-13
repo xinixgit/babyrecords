@@ -90,6 +90,19 @@ func (h *RecordHandler) SaveRecord(c *gin.Context) {
 	c.JSON(http.StatusOK, "")
 }
 
+func (h *RecordHandler) GetLatestSleepRecord(c *gin.Context) {
+	rec, err := h.Repo.GetLatestSleepRecord()
+	if err != nil {
+		log.Printf("unable to fetch latest sleep record: %s", err)
+		c.JSON(http.StatusInternalServerError, err_internalerr)
+		return
+	}
+	resp := model.GetLatestSleepRecordResponse{
+		SleepRecord: rec,
+	}
+	c.JSON(http.StatusOK, resp)
+}
+
 func validate(req model.CreateRecordRequest) error {
 	if req.FeedRecord == nil && req.DiaperRecord == nil && req.SleepRecord == nil {
 		return fmt.Errorf("no record data is found on this req")

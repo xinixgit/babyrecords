@@ -19,3 +19,14 @@ const getRecordByTypeSql string = `
 	FROM app.baby_records
 	WHERE rec_type = $1
 `
+
+const getLatestRecordByTypeSql string = `
+	SELECT
+		rec_type AS record_type,
+		data,
+		created_at
+	FROM app.baby_records
+	WHERE rec_type = $1
+	ORDER BY created_at DESC
+	LIMIT 1
+`
