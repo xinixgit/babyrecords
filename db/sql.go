@@ -11,8 +11,16 @@ const saveRecordSql string = `
 		:created_at
 	)
 `
+const updateRecordByIDSql string = `
+	UPDATE app.baby_records
+	SET data = $1
+	WHERE id = $2
+	AND rec_type = $3
+`
+
 const getRecordByTypeSql string = `
 	SELECT
+		id,
 		rec_type AS record_type,
 		data,
 		created_at
@@ -22,6 +30,7 @@ const getRecordByTypeSql string = `
 
 const getLatestRecordByTypeSql string = `
 	SELECT
+		id,
 		rec_type AS record_type,
 		data,
 		created_at

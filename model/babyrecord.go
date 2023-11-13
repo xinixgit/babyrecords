@@ -25,6 +25,7 @@ type DomainRecord interface {
 }
 
 type FeedRecord struct {
+	ID        *string    `json:"id"`
 	FoodType  string     `json:"type"`
 	Vol       int        `json:"vol"`
 	Unit      string     `json:"unit"`
@@ -33,12 +34,14 @@ type FeedRecord struct {
 }
 
 type SleepRecord struct {
+	ID        *string    `json:"id"`
 	StartTime string     `json:"start_time"`
 	EndTime   string     `json:"end_time"`
 	CreatedAt *time.Time `json:"created_at"`
 }
 
 type DiaperRecord struct {
+	ID        *string    `json:"id"`
 	Size      string     `json:"size"`
 	Time      string     `json:"time"`
 	CreatedAt *time.Time `json:"created_at"`

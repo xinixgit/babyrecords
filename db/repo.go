@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"log"
@@ -28,6 +29,23 @@ func (r *Repo) SaveSleepRecord(rec *model.SleepRecord) error {
 
 func (r *Repo) SaveDiaperRecord(rec *model.DiaperRecord) error {
 	return saveRecord(model.DiaperRecordType, rec, r.db)
+}
+
+func (r *Repo) UpdateSleepRecord(rec *model.SleepRecord) error {
+	data, err := json.Marshal(rec)
+	if err != nil {
+		return err
+	}
+
+	if _, err := r.db.Exec(
+		updateRecordByIDSql,
+		data,
+		rec.ID,
+		model.SleepRecordType,
+	); err != nil {
+		return fmt.Errorf("unable to find sleep record by id: %s: %w", *rec.ID, err)
+	}
+	return nil
 }
 
 func (r *Repo) GetFeedRecords() ([]model.FeedRecord, error) {
@@ -62,7 +80,7 @@ func saveRecord[R model.DomainRecord](
 
 func getRecords[R model.DomainRecord](
 	recType model.RecordType,
-	mapper func(*BabyRecord) (R, error),
+	mapper func(BabyRecord) (R, error),
 	db *sqlx.DB,
 ) ([]R, error) {
 	dbRecords := []BabyRecord{}
@@ -71,8 +89,8 @@ func getRecords[R model.DomainRecord](
 	}
 
 	records := make([]R, len(dbRecords))
-	for i, dbRec := range dbRecords {
-		rec, err := mapper(&dbRec)
+	for i, _ := range dbRecords {
+		rec, err := mapper(dbRecords[i])
 		if err != nil {
 			return nil, err
 		}
@@ -83,7 +101,7 @@ func getRecords[R model.DomainRecord](
 
 func getLatestRecord[R model.DomainRecord](
 	recType model.RecordType,
-	mapper func(*BabyRecord) (R, error),
+	mapper func(BabyRecord) (R, error),
 	db *sqlx.DB,
 ) (*R, error) {
 	dbRecord := BabyRecord{}
@@ -96,7 +114,7 @@ func getLatestRecord[R model.DomainRecord](
 		return nil, fmt.Errorf("unable to select %s records from db: %w", recType, err)
 	}
 
-	rec, err := mapper(&dbRecord)
+	rec, err := mapper(dbRecord)
 	if err != nil {
 		return nil, err
 	}
