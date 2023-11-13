@@ -17,6 +17,7 @@ const PageTime = () => {
 
   const onSubmit = () => {
     ctx.time = toISOTime(hr, min, amPm)
+    console.log(ctx)
     SaveRecord(ctx, () => navigate("/ack?status=" + SUCCESS))
   }
 

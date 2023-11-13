@@ -8,9 +8,9 @@ export default function PageHome() {
   const navigate = useNavigate();
   const ctx = useContext(CurrentContext);
 
-  const handleClick = (name: string) => {
-    ctx.type = name;
-    navigate("/" + name);
+  const handleClick = (type: string) => {
+    ctx.type = type;
+    navigate("/" + type);
   }
 
   return (

@@ -21,6 +21,9 @@ export function CreateSaveRecordRequestFromContext(ctx: Context): SaveRecordRequ
   }
 
   if (ctx.type == RecordTypeDiaper) {
+    req.diaper_record = {
+      size: ctx.diaperSize
+    }
     return req
   }
 
