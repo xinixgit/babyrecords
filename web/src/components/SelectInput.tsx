@@ -8,7 +8,7 @@ interface Props {
 const SelectInput = ({ items, handleChange }: Props) => {
   return (
     <div className="row g-3 align-items-center justify-content-center">
-      <div className="col-9">
+      <div className="col-7">
         <select className="form-select" aria-label="Default select example" onChange={(e) => { handleChange(e) }}>
           {
             items.map((item) => (
@@ -16,9 +16,6 @@ const SelectInput = ({ items, handleChange }: Props) => {
             ))
           }
         </select>
-      </div>
-      <div className="col-2">
-        <span className="form-text" />
       </div>
     </div>
   )

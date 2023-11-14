@@ -7,7 +7,7 @@ import { Context } from '../Model'
 export function SaveRecord(ctx: Context, callback: (data: any) => void) {
   const req: SaveRecordRequest = CreateSaveRecordRequestFromContext(ctx)
 
-  fetch('/record/save', {
+  fetch('/record', {
     method: 'POST',
     body: JSON.stringify(req),
     headers: {

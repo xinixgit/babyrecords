@@ -8,13 +8,8 @@ interface Props {
 const NumberInput = ({ label, handleChange }: Props) => {
   return (
     <div className="row g-3 align-items-center justify-content-center">
-      <div className="col-9">
-        <input type="number" className="form-control" onChange={(e: ChangeEvent<HTMLInputElement>) => { handleChange(e.target.value) }} />
-      </div>
-      <div className="col-2">
-        <span className="form-text">
-          {label}
-        </span>
+      <div className="col-7">
+        <input type="number" className="form-control" placeholder={label} onChange={(e: ChangeEvent<HTMLInputElement>) => { handleChange(e.target.value) }} />
       </div>
     </div>
   )

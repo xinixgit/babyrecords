@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { createContext } from 'react';
 import PageHome from './pages/PageHome'
 import PageFeed from './pages/PageFeed'
+import PageSleep from './pages/PageSleep'
 import PageTime from './pages/PageTime'
 import PageAck from './pages/PageAck'
 import { Context } from './Model'
@@ -28,6 +29,7 @@ function App() {
             <Route index element={<PageHome />} />
             <Route path="/feed" element={<PageFeed />} />
             <Route path="/diaper" element={<PageDiaper />} />
+            <Route path="/sleep" element={<PageSleep />} />
             <Route path="/time" element={<PageTime />} />
             <Route path="/ack" element={<PageAck />} />
           </Routes>

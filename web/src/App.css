@@ -19,13 +19,13 @@
   margin-bottom: 20px;
 }
 
-.giant-font input,
 .giant-font div {
   font-size: 2em;
 }
 
 .giant-font .btn,
 .giant-font select,
+.giant-font input,
 .giant-font option {
   font-size: 1em;
 }
