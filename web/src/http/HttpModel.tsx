@@ -30,3 +30,9 @@ export interface UpdateSleepRecordRequest {
 export interface GetSleepRecordResponse {
   sleep_record?: SleepRecord
 }
+
+export interface GetAllRecordsResponse {
+  feed_records: FeedRecord[]
+  diaper_records: DiaperRecord[]
+  sleep_records: SleepRecord[]
+}
