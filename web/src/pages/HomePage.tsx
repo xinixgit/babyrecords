@@ -30,6 +30,11 @@ export default function HomePage() {
           <GiantButton name='尿布' styleClass='btn-warning' onClick={() => { handleClick(RecordTypeDiaper); }} />
         </div>
       </div>
+      <div className="row align-items-center justify-content-center">
+        <div className="col col-8">
+          <GiantButton name='总览' styleClass='btn-light' onClick={() => { navigate("/dashboard") }} />
+        </div>
+      </div>
     </div>
   )
 }

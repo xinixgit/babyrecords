@@ -12,19 +12,19 @@ const TableWithHeader = ({ header, tableHeader, rows }: Props) => {
         <thead>
           <tr>
             {
-              tableHeader.map((col) => (
-                <th scope="col">{col}</th>
+              tableHeader.map((col, idx) => (
+                <th scope="col" key={idx}>{col}</th>
               ))
             }
           </tr>
         </thead>
         <tbody>
           {
-            rows.map((row) => (
-              <tr>
+            rows.map((row, rowIdx) => (
+              <tr key={'tr' + rowIdx}>
                 {
-                  row.map((col) => (
-                    <td>{col}</td>
+                  row.map((col, colIdx) => (
+                    <td key={rowIdx + '.' + colIdx}>{col}</td>
                   ))
                 }
               </tr>
