@@ -3,8 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { createContext } from 'react';
 import PageHome from './pages/PageHome'
 import PageFeed from './pages/PageFeed'
-import PageSleepStart from './pages/PageSleepStart'
-import PageSleepEnd from './pages/PageSleepEnd'
+import PageSleep from './pages/PageSleep'
 import PageTime from './pages/PageTime'
 import PageAck from './pages/PageAck'
 import { Context } from './Model'
@@ -23,15 +22,14 @@ export const CurrentContext = createContext(emptyContext);
 
 function App() {
   return (
-    <div className="container text-center">
+    <div className="container text-center babyrecord-container">
       <CurrentContext.Provider value={emptyContext}>
         <BrowserRouter>
           <Routes>
             <Route index element={<PageHome />} />
             <Route path="/feed" element={<PageFeed />} />
             <Route path="/diaper" element={<PageDiaper />} />
-            <Route path="/sleep" element={<PageSleepStart />} />
-            <Route path="/sleep-end" element={<PageSleepEnd />} />
+            <Route path="/sleep" element={<PageSleep />} />
             <Route path="/time" element={<PageTime />} />
             <Route path="/ack" element={<PageAck />} />
           </Routes>

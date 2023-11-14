@@ -6,13 +6,15 @@ interface Props {
 }
 
 const TimeInputForm = ({ onSubmit }: Props) => {
-  const onFormSubmit = () => {
-    onSubmit(time)
+  const time: Date = new Date()
+  const handleTimeChange = (t: Date) => {
+    time.setHours(t.getHours())
+    time.setMinutes(t.getMinutes())
+    time.setSeconds(t.getSeconds())
   }
 
-  let time: Date
-  const handleTimeChange = (t: Date) => {
-    time = t
+  const onFormSubmit = () => {
+    onSubmit(time)
   }
 
   return (

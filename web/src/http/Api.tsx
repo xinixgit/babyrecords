@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { SaveRecordRequest, GetSleepRecordResponse } from './HttpModel'
+import { SaveRecordRequest, UpdateSleepRecordRequest, GetSleepRecordResponse } from './HttpModel'
 import { CreateSaveRecordRequestFromContext } from './Mapper'
 import { Context } from '../Model'
 
@@ -10,6 +10,21 @@ export function SaveRecord(ctx: Context, callback: (data: any) => void) {
 
   fetch('/record', {
     method: 'POST',
+    body: JSON.stringify(req),
+    headers: {
+      'Content-type': 'application/json; charset=UTF-8',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => callback(data))
+    .catch((err) => {
+      console.log(err.message);
+    });
+}
+
+export function UpdateSleepRecordEndTime(req: UpdateSleepRecordRequest, callback: (data: string) => void) {
+  fetch('/record/sleep', {
+    method: 'PUT',
     body: JSON.stringify(req),
     headers: {
       'Content-type': 'application/json; charset=UTF-8',

@@ -23,6 +23,10 @@ export interface SaveRecordRequest {
   sleep_record?: SleepRecord
 }
 
+export interface UpdateSleepRecordRequest {
+  sleep_record: SleepRecord
+}
+
 export interface GetSleepRecordResponse {
   sleep_record?: SleepRecord
 }
