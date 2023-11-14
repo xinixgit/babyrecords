@@ -17,6 +17,9 @@ export function CreateSaveRecordRequestFromContext(ctx: Context): SaveRecordRequ
   }
 
   if (ctx.type == RecordTypeSleep) {
+    req.sleep_record = {
+      start_time: ctx.time
+    }
     return req
   }
 

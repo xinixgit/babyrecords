@@ -10,8 +10,19 @@ export interface DiaperRecord {
   time: string
 }
 
+export interface SleepRecord {
+  id?: number
+  start_time: string
+  end_time?: string
+}
+
 export interface SaveRecordRequest {
   type: string
   feed_record?: FeedRecord
   diaper_record?: DiaperRecord
+  sleep_record?: SleepRecord
+}
+
+export interface GetSleepRecordResponse {
+  sleep_record?: SleepRecord
 }
