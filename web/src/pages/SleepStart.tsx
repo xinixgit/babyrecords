@@ -1,9 +1,9 @@
-import PageTime from './PageTime'
-import PageSleepEndTime from './PageSleepEndTime'
+import Time from './Time'
+import PageSleepEndTime from './SleepEnd'
 import { useState } from 'react';
 import { GetLatestSleepRecord } from '../http/Api'
 
-const PageSleepStart = () => {
+const SleepStart = () => {
   const [dataLoaded, setDataLoaded] = useState(false)
   const [sleepRecord, setSleepRecord] = useState({ start_time: '' })
 
@@ -23,10 +23,10 @@ const PageSleepStart = () => {
 
   return (
     <>
-      {dataLoaded && sleepRecord.start_time === "" && <PageTime />}
+      {dataLoaded && sleepRecord.start_time === "" && <Time />}
       {dataLoaded && sleepRecord.start_time != "" && <PageSleepEndTime sleepRecord={sleepRecord} />}
     </>
   )
 }
 
-export default PageSleepStart
+export default SleepStart

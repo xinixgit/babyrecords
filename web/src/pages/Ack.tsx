@@ -2,7 +2,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import VerticalWords from "../components/VerticalWords";
 import { SUCCESS } from "../Model"
 
-const PageAck = () => {
+const Ack = () => {
   const navigate = useNavigate()
   setTimeout(() => { navigate("/") }, 2000)
 
@@ -16,4 +16,4 @@ const PageAck = () => {
   )
 }
 
-export default PageAck
+export default Ack

@@ -22,7 +22,7 @@ const feedLabels = [
   '克'
 ]
 
-const PageFeed = () => {
+const Feed = () => {
   const navigate = useNavigate()
   const ctx = useContext(CurrentContext)
   const [input, setInput] = useState({
@@ -58,4 +58,4 @@ const PageFeed = () => {
   )
 }
 
-export default PageFeed;
+export default Feed;

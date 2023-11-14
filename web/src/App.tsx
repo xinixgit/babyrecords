@@ -1,13 +1,14 @@
 import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { createContext } from 'react';
-import PageHome from './pages/PageHome'
-import PageFeed from './pages/PageFeed'
-import PageSleep from './pages/PageSleep'
-import PageTime from './pages/PageTime'
-import PageAck from './pages/PageAck'
+import HomePage from './pages/HomePage'
+import Feed from './pages/Feed'
+import SleepStart from './pages/SleepStart'
+import Time from './pages/Time'
+import Ack from './pages/Ack'
+import Dashboard from './pages/Dashboard'
 import { Context } from './Model'
-import PageDiaper from './pages/PageDiaper';
+import Diaper from './pages/Diaper';
 
 const emptyContext: Context = {
   type: '',
@@ -26,12 +27,13 @@ function App() {
       <CurrentContext.Provider value={emptyContext}>
         <BrowserRouter>
           <Routes>
-            <Route index element={<PageHome />} />
-            <Route path="/feed" element={<PageFeed />} />
-            <Route path="/diaper" element={<PageDiaper />} />
-            <Route path="/sleep" element={<PageSleep />} />
-            <Route path="/time" element={<PageTime />} />
-            <Route path="/ack" element={<PageAck />} />
+            <Route index element={<HomePage />} />
+            <Route path="/feed" element={<Feed />} />
+            <Route path="/diaper" element={<Diaper />} />
+            <Route path="/sleep" element={<SleepStart />} />
+            <Route path="/time" element={<Time />} />
+            <Route path="/ack" element={<Ack />} />
+            <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
         </BrowserRouter>
       </CurrentContext.Provider>

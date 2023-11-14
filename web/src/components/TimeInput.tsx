@@ -58,7 +58,7 @@ const TimeInput = ({ handleTimeChange }: Props) => {
     <>
       <NumberInput label="点" handleChange={handleHrChange} />
       <NumberInput label="分" handleChange={handleMinChange} />
-      <SelectInput handleChange={handleAmPmChange} items={inputs} />
+      <SelectInput handleChange={handleAmPmChange} items={inputs} selectedIdx={1} />
     </>
   )
 }

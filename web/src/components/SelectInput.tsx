@@ -1,15 +1,25 @@
 import { ChangeEvent } from "react"
 
-interface Props {
-  items: { val: string, txt: string }[]
-  handleChange: (e: ChangeEvent<HTMLSelectElement>) => void
+export interface Selection {
+  val: string
+  txt: string
 }
 
-const SelectInput = ({ items, handleChange }: Props) => {
+interface Props {
+  items: Selection[]
+  handleChange: (e: ChangeEvent<HTMLSelectElement>) => void
+  selectedIdx?: number
+}
+
+const SelectInput = ({ items, handleChange, selectedIdx }: Props) => {
   return (
     <div className="row g-3 align-items-center justify-content-center">
       <div className="col-7">
-        <select className="form-select" aria-label="Default select example" onChange={(e) => { handleChange(e) }}>
+        <select
+          className="form-select"
+          aria-label="Default select example"
+          value={getSelectedValue(selectedIdx || 0, items)}
+          onChange={(e) => { handleChange(e) }}>
           {
             items.map((item) => (
               <option key={item.val} value={item.val}>{item.txt}</option>
@@ -19,6 +29,10 @@ const SelectInput = ({ items, handleChange }: Props) => {
       </div>
     </div>
   )
+}
+
+function getSelectedValue(idx: number, items: Selection[]): string {
+  return items[idx].val
 }
 
 export default SelectInput

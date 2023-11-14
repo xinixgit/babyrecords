@@ -5,7 +5,7 @@ import { CurrentContext } from '../App';
 import { SaveRecord } from '../http/Api';
 import { SUCCESS } from '../Model'
 
-const PageTime = () => {
+const Time = () => {
   const navigate = useNavigate()
   const ctx = useContext(CurrentContext);
 
@@ -19,4 +19,4 @@ const PageTime = () => {
   )
 }
 
-export default PageTime
+export default Time

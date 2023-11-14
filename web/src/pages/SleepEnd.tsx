@@ -9,7 +9,7 @@ interface Props {
   sleepRecord: SleepRecord
 }
 
-const PageSleepEnd = ({ sleepRecord }: Props) => {
+const SleepEnd = ({ sleepRecord }: Props) => {
   const navigate = useNavigate()
 
   const onSubmit = (time: Date) => {
@@ -51,4 +51,4 @@ function parseStartTime(startTime: string): string {
   return (hr < 10 ? '0' : '') + hr + ':' + time.getMinutes() + ' ' + amPm
 }
 
-export default PageSleepEnd
+export default SleepEnd

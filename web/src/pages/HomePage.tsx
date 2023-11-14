@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import { CurrentContext } from '../App';
 import { RecordTypeFeed, RecordTypeSleep, RecordTypeDiaper } from '../Model';
 
-export default function PageHome() {
+export default function HomePage() {
   const navigate = useNavigate();
   const ctx = useContext(CurrentContext);
 

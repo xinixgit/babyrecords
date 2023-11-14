@@ -5,7 +5,7 @@ import { CurrentContext } from '../App';
 import Form from '../components/Form'
 import SelectInput from '../components/SelectInput';
 
-const PageDiaper = () => {
+const Diaper = () => {
   const navigate = useNavigate()
   const ctx = useContext(CurrentContext)
   const items = [
@@ -41,4 +41,4 @@ const PageDiaper = () => {
   )
 }
 
-export default PageDiaper
+export default Diaper
