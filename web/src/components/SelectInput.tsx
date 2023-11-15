@@ -20,8 +20,8 @@ const SelectInput = ({ items, handleChange }: Props) => {
           aria-label="Default select example"
           onChange={(e) => { handleChange(e) }}>
           {
-            items.map((item) => (
-              <option key={item.val} value={item.val}>{item.txt}</option>
+            items.map((item, idx) => (
+              <option key={idx} value={item.val}>{item.txt}</option>
             ))
           }
         </select>

@@ -4,10 +4,12 @@ import SelectInput from './SelectInput';
 import { AM, PM } from '../Model'
 
 interface Props {
-  handleTimeChange: (ts: Date) => void
+  handleHrChange: (hr: string) => void
+  handleMinChange: (min: string) => void
+  handleAmPmChange: (e: ChangeEvent<HTMLSelectElement>) => void
 }
 
-const TimeInput = ({ handleTimeChange }: Props) => {
+const TimeInput = ({ handleHrChange, handleMinChange, handleAmPmChange }: Props) => {
   const inputs = [
     {
       val: AM,
@@ -18,41 +20,6 @@ const TimeInput = ({ handleTimeChange }: Props) => {
       txt: '下午'
     }
   ]
-
-  const currDate = new Date()
-  let amPm = AM
-
-  const handleHrChange = (hrStr: string) => {
-    if (hrStr === "") {
-      return
-    }
-
-    let hr = parseInt(hrStr)
-    if (hr < 12 && amPm === PM) {
-      hr += 12
-    }
-
-    currDate.setHours(hr)
-    handleTimeChange(currDate)
-  }
-
-  const handleMinChange = (minStr: string) => {
-    if (minStr === "") {
-      return
-    }
-
-    const min = parseInt(minStr)
-    currDate.setMinutes(min)
-    handleTimeChange(currDate)
-  }
-
-  const handleAmPmChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    amPm = e.target.value
-    if (currDate.getHours() < 12 && amPm === PM) {
-      currDate.setHours(currDate.getHours() + 12)
-    }
-    handleTimeChange(currDate)
-  }
 
   return (
     <>
