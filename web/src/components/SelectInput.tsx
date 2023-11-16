@@ -8,10 +8,10 @@ export interface Selection {
 interface Props {
   items: Selection[]
   handleChange: (e: ChangeEvent<HTMLSelectElement>) => void
-  selectedIdx?: number
+  label?: string
 }
 
-const SelectInput = ({ items, handleChange }: Props) => {
+const SelectInput = ({ items, handleChange, label }: Props) => {
   return (
     <div className="row g-3 align-items-center justify-content-center">
       <div className="col-7">
@@ -26,6 +26,7 @@ const SelectInput = ({ items, handleChange }: Props) => {
           }
         </select>
       </div>
+      {typeof label != 'undefined' && <div className="col-2">{label}</div>}
     </div>
   )
 }

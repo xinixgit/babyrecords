@@ -2,6 +2,7 @@ import TableWithHeader from '../components/TableWithHeader'
 import { DiaperRecord, FeedRecord, SleepRecord } from '../http/HttpModel'
 import { GetAllRecords } from '../http/Api'
 import { useState } from 'react';
+import { PadZero } from '../components/Util'
 
 interface TableContent {
   header: string[]
@@ -95,7 +96,7 @@ function formatTime(timeStr: string): string {
   const parsed = Date.parse(timeStr)
   const time = new Date(parsed)
   return `${time.getMonth()}/${time.getDate()}/${time.getFullYear()} ` +
-    `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`
+    `${PadZero(time.getHours())}:${PadZero(time.getMinutes())}`
 }
 
 export default Dashboard

@@ -10,7 +10,7 @@ const Time = () => {
   const ctx = useContext(CurrentContext);
 
   const onSubmit = (time: Date) => {
-    ctx.time = time.toISOString()
+    ctx.time = time.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })
     SaveRecord(ctx, () => navigate("/ack?status=" + SUCCESS))
   }
 

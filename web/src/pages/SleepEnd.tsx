@@ -13,7 +13,7 @@ const SleepEnd = ({ sleepRecord }: Props) => {
   const navigate = useNavigate()
 
   const onSubmit = (time: Date) => {
-    const sleepEndTime = time.toISOString()
+    const sleepEndTime = time.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })
     const newSleepRecord: SleepRecord = {
       id: sleepRecord.id,
       start_time: sleepRecord.start_time,
