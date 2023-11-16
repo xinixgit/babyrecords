@@ -48,16 +48,16 @@ func (r *Repo) UpdateSleepRecord(rec *model.SleepRecord) error {
 	return nil
 }
 
-func (r *Repo) GetFeedRecords() ([]model.FeedRecord, error) {
-	return getRecords(model.FeedRecordType, mapToFeedRecord, r.db)
+func (r *Repo) GetFeedRecords(date string) ([]model.FeedRecord, error) {
+	return getRecords(date, model.FeedRecordType, mapToFeedRecord, r.db)
 }
 
-func (r *Repo) GetSleepRecords() ([]model.SleepRecord, error) {
-	return getRecords(model.SleepRecordType, mapToSleepRecord, r.db)
+func (r *Repo) GetSleepRecords(date string) ([]model.SleepRecord, error) {
+	return getRecords(date, model.SleepRecordType, mapToSleepRecord, r.db)
 }
 
-func (r *Repo) GetDiaperRecords() ([]model.DiaperRecord, error) {
-	return getRecords(model.DiaperRecordType, mapToDiaperRecord, r.db)
+func (r *Repo) GetDiaperRecords(date string) ([]model.DiaperRecord, error) {
+	return getRecords(date, model.DiaperRecordType, mapToDiaperRecord, r.db)
 }
 
 func (r *Repo) GetLatestSleepRecord() (*model.SleepRecord, error) {
@@ -79,17 +79,18 @@ func saveRecord[R model.DomainRecord](
 }
 
 func getRecords[R model.DomainRecord](
+	date string,
 	recType model.RecordType,
 	mapper func(BabyRecord) (R, error),
 	db *sqlx.DB,
 ) ([]R, error) {
 	dbRecords := []BabyRecord{}
-	if err := db.Select(&dbRecords, getRecordByTypeSql, string(recType)); err != nil {
+	if err := db.Select(&dbRecords, getRecordByTypeSql, string(recType), date); err != nil {
 		return nil, fmt.Errorf("unable to select %s records from db: %w", recType, err)
 	}
 
 	records := make([]R, len(dbRecords))
-	for i, _ := range dbRecords {
+	for i := range dbRecords {
 		rec, err := mapper(dbRecords[i])
 		if err != nil {
 			return nil, err

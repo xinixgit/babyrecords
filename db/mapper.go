@@ -13,10 +13,11 @@ func mapToDBRec[R model.DomainRecord](recType model.RecordType, rec *R) (BabyRec
 		return BabyRecord{}, err
 	}
 
+	loc := model.DefaultLocation()
 	return BabyRecord{
 		RecordType: string(recType),
 		Data:       data,
-		CreatedAt:  time.Now(),
+		CreatedAt:  time.Now().In(loc),
 	}, nil
 }
 

@@ -1,5 +1,9 @@
 package model
 
+const (
+	Date string = "date"
+)
+
 type CreateRecordRequest struct {
 	RecordType   string        `json:"type"`
 	FeedRecord   *FeedRecord   `json:"feed_record"`

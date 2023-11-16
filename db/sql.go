@@ -26,6 +26,8 @@ const getRecordByTypeSql string = `
 		created_at
 	FROM app.baby_records
 	WHERE rec_type = $1
+	AND DATE(created_at AT TIME ZONE 'America/Los_Angeles') = $2
+	ORDER BY created_at
 `
 
 const getLatestRecordByTypeSql string = `

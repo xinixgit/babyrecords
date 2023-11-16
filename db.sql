@@ -6,3 +6,5 @@ CREATE TABLE IF NOT EXISTS app.baby_records (
   data VARCHAR(511) NOT NULL,
   created_at timestamp default now()
 );
+
+ALTER TABLE app.baby_records ALTER COLUMN created_at TYPE timestamp with time zone;

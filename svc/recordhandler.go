@@ -20,31 +20,37 @@ type RecordHandler struct {
 }
 
 func (h *RecordHandler) GetAllRecords(c *gin.Context) {
-	resp := model.GetAllRecordsResponse{}
-	feedRecs, err := h.Repo.GetFeedRecords()
+	date := c.Query(model.Date)
+	if date == "" {
+		date = model.CurrentDateStr()
+	}
+
+	feedRecs, err := h.Repo.GetFeedRecords(date)
 	if err != nil {
 		log.Printf("unable to fetch feed records: %s", err)
 		c.JSON(http.StatusInternalServerError, err_internalerr)
 		return
 	}
-	resp.FeedRecords = feedRecs
 
-	sleepRecs, err := h.Repo.GetSleepRecords()
+	sleepRecs, err := h.Repo.GetSleepRecords(date)
 	if err != nil {
 		log.Printf("unable to fetch sleep records: %s", err)
 		c.JSON(http.StatusInternalServerError, err_internalerr)
 		return
 	}
-	resp.SleepRecord = sleepRecs
 
-	diaperRecs, err := h.Repo.GetDiaperRecords()
+	diaperRecs, err := h.Repo.GetDiaperRecords(date)
 	if err != nil {
 		log.Printf("unable to fetch diaper records: %s", err)
 		c.JSON(http.StatusInternalServerError, err_internalerr)
 		return
 	}
-	resp.DiaperRecord = diaperRecs
 
+	resp := model.GetAllRecordsResponse{
+		FeedRecords:  feedRecs,
+		DiaperRecord: diaperRecs,
+		SleepRecord:  sleepRecs,
+	}
 	c.JSON(http.StatusOK, resp)
 }
 
