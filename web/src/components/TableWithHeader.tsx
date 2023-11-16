@@ -2,9 +2,10 @@ interface Props {
   header: string
   tableHeader: string[]
   rows: string[][]
+  aggregate: (rows: string[][]) => string
 }
 
-const TableWithHeader = ({ header, tableHeader, rows }: Props) => {
+const TableWithHeader = ({ header, tableHeader, rows, aggregate }: Props) => {
   return (
     <>
       <h1>{header}</h1>
@@ -30,6 +31,9 @@ const TableWithHeader = ({ header, tableHeader, rows }: Props) => {
               </tr>
             ))
           }
+          <tr>
+            <td className="summary" colSpan={header.length}><span>总结:</span> {aggregate(rows)}</td>
+          </tr>
         </tbody>
       </table>
     </>

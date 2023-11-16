@@ -33,11 +33,69 @@ const Dashboard = () => {
 
   return (
     <>
-      <TableWithHeader header="Feed Records" tableHeader={tableContent.feedTable.header} rows={tableContent.feedTable.rows} />
-      <TableWithHeader header="Diaper Records" tableHeader={tableContent.diaperTable.header} rows={tableContent.diaperTable.rows} />
-      <TableWithHeader header="Sleep Records" tableHeader={tableContent.sleepTable.header} rows={tableContent.sleepTable.rows} />
+      <TableWithHeader
+        header="Feed Records"
+        tableHeader={tableContent.feedTable.header}
+        rows={tableContent.feedTable.rows}
+        aggregate={aggregateFeedRecords}
+      />
+      <TableWithHeader
+        header="Diaper Records"
+        tableHeader={tableContent.diaperTable.header}
+        rows={tableContent.diaperTable.rows}
+        aggregate={(rows) => rows.length + ' 次'}
+      />
+      <TableWithHeader
+        header="Sleep Records"
+        tableHeader={tableContent.sleepTable.header}
+        rows={tableContent.sleepTable.rows}
+        aggregate={aggregateSleepRecords}
+      />
     </>
   )
+}
+
+function aggregateFeedRecords(rows: string[][]): string {
+  type totalType = Record<string, { vol: number, unit: string }>
+  const total: totalType = {}
+  for (let i = 0; i < rows.length; i++) {
+    const row = rows[i]
+    const type = row[0]
+    if (typeof total[type] === 'undefined') {
+      total[type] = { vol: parseInt(row[1]), unit: row[2] }
+    } else {
+      total[type].vol += parseInt(row[1])
+    }
+  }
+
+  let str = ''
+  for (const key in total) {
+    if (str !== '') {
+      str += ', '
+    }
+
+    const val = total[key]
+    str += `${key}: ${val.vol} ${val.unit}`
+  }
+  return str
+}
+
+function aggregateSleepRecords(rows: string[][]): string {
+  let sum = 0
+  for (const i in rows) {
+    const start: string = rows[i][0]
+    const end: string = rows[i][1]
+    if (end === '') {
+      continue
+    }
+
+    const tsStart = Date.parse(start)
+    const tsEnd = Date.parse(end)
+    const min = (tsEnd - tsStart) / 1000 / 60
+    sum += min
+  }
+
+  return `${sum} 分钟`
 }
 
 function createFeedRecordTable(recs: FeedRecord[]): TableContent {
@@ -51,7 +109,7 @@ function createFeedRecordTable(recs: FeedRecord[]): TableContent {
   const rows = recs.map(rec => {
     return [
       rec.type,
-      rec.vol + '',
+      rec.vol.toString(),
       rec.unit,
       formatTime(rec.time)
     ]

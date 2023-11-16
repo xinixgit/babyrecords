@@ -33,3 +33,11 @@
 .status-success {
   color: green;
 }
+
+.table .summary {
+  text-align: left;
+}
+
+.table .summary span {
+  font-weight: bold;
+}
