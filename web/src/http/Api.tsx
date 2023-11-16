@@ -54,8 +54,8 @@ export function GetLatestSleepRecord(callback: (data: GetSleepRecordResponse) =>
     .catch((err) => console.log('err: ' + JSON.stringify(err)));
 }
 
-export function GetAllRecords(callback: (data: GetAllRecordsResponse) => void) {
-  fetch('/records', {
+export function GetAllRecords(date: string, callback: (data: GetAllRecordsResponse) => void) {
+  fetch('/records?' + new URLSearchParams({ date }), {
     method: 'GET',
     headers: {
       'Content-type': 'application/json; charset=UTF-8',

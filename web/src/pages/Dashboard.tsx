@@ -2,7 +2,11 @@ import TableWithHeader from '../components/TableWithHeader'
 import { DiaperRecord, FeedRecord, SleepRecord } from '../http/HttpModel'
 import { GetAllRecords } from '../http/Api'
 import { useState, useEffect } from 'react';
-import { PadZero } from '../components/Util'
+import { PadZero, ToDateString } from '../components/Util'
+import DatePicker from "react-datepicker";
+import 'react-datepicker/dist/react-datepicker.css'
+
+
 
 interface TableContent {
   header: string[]
@@ -17,22 +21,17 @@ const Dashboard = () => {
   })
 
   useEffect(() => {
-    GetAllRecords((data) => {
-      const feedTable = createFeedRecordTable(data.feed_records)
-      const diaperTable = createDiaperRecordTable(data.diaper_records)
-      const sleepTable = createSleepRecordTable(data.sleep_records)
-      const _tableContent = {
-        feedTable: feedTable,
-        diaperTable: diaperTable,
-        sleepTable: sleepTable,
-      }
-      setTableContent(_tableContent)
-    })
+    refreshTableContent(new Date(), setTableContent)
   }, [setTableContent])
 
+  const [inputDate, setInputDate] = useState(new Date());
 
   return (
     <>
+      <DatePicker selected={inputDate} onChange={(date: Date) => {
+        setInputDate(date)
+        refreshTableContent(date, setTableContent)
+      }} />
       <TableWithHeader
         header="Feed Records"
         tableHeader={tableContent.feedTable.header}
@@ -53,6 +52,24 @@ const Dashboard = () => {
       />
     </>
   )
+}
+
+function refreshTableContent(
+  date: Date,
+  setTableContent: (content: { feedTable: TableContent, diaperTable: TableContent, sleepTable: TableContent }) => void
+) {
+  const dateStr = ToDateString(date)
+  GetAllRecords(dateStr, (data) => {
+    const feedTable = createFeedRecordTable(data.feed_records)
+    const diaperTable = createDiaperRecordTable(data.diaper_records)
+    const sleepTable = createSleepRecordTable(data.sleep_records)
+    const _tableContent = {
+      feedTable: feedTable,
+      diaperTable: diaperTable,
+      sleepTable: sleepTable,
+    }
+    setTableContent(_tableContent)
+  })
 }
 
 function aggregateFeedRecords(rows: string[][]): string {
