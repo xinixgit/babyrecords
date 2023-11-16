@@ -4,6 +4,7 @@ import { UpdateSleepRecordEndTime } from '../http/Api';
 import { SUCCESS } from '../Model'
 import { SleepRecord, UpdateSleepRecordRequest } from '../http/HttpModel';
 import { AM, PM } from '../Model'
+import { PadZero } from "../components/Util";
 
 interface Props {
   sleepRecord: SleepRecord
@@ -48,7 +49,7 @@ function parseStartTime(startTime: string): string {
   const time = new Date(epoch)
   const amPm = time.getHours() < 12 ? AM : PM
   const hr = time.getHours() % 12
-  return (hr < 10 ? '0' : '') + hr + ':' + time.getMinutes() + ' ' + amPm
+  return PadZero(hr) + ':' + PadZero(time.getMinutes()) + ' ' + amPm
 }
 
 export default SleepEnd

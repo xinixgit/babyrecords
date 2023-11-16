@@ -1,7 +1,7 @@
 import TableWithHeader from '../components/TableWithHeader'
 import { DiaperRecord, FeedRecord, SleepRecord } from '../http/HttpModel'
 import { GetAllRecords } from '../http/Api'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PadZero } from '../components/Util'
 
 interface TableContent {
@@ -10,23 +10,32 @@ interface TableContent {
 }
 
 const Dashboard = () => {
-  const [feedTableContent, setFeedTableContent] = useState({ header: [''], rows: [['']] })
-  const [diaperTableContent, setDiaperTableContent] = useState({ header: [''], rows: [['']] })
-  const [sleepTableContent, setSleepTableContent] = useState({ header: [''], rows: [['']] })
-  GetAllRecords((data) => {
-    const feedTable = createFeedRecordTable(data.feed_records)
-    const diaperTable = createDiaperRecordTable(data.diaper_records)
-    const sleepTable = createSleepRecordTable(data.sleep_records)
-    setFeedTableContent(feedTable)
-    setDiaperTableContent(diaperTable)
-    setSleepTableContent(sleepTable)
+  const [tableContent, setTableContent] = useState({
+    feedTable: { header: [''], rows: [['']] },
+    diaperTable: { header: [''], rows: [['']] },
+    sleepTable: { header: [''], rows: [['']] }
   })
+
+  useEffect(() => {
+    GetAllRecords((data) => {
+      const feedTable = createFeedRecordTable(data.feed_records)
+      const diaperTable = createDiaperRecordTable(data.diaper_records)
+      const sleepTable = createSleepRecordTable(data.sleep_records)
+      const _tableContent = {
+        feedTable: feedTable,
+        diaperTable: diaperTable,
+        sleepTable: sleepTable,
+      }
+      setTableContent(_tableContent)
+    })
+  }, [setTableContent])
+
 
   return (
     <>
-      <TableWithHeader header="Feed Records" tableHeader={feedTableContent.header} rows={feedTableContent.rows} />
-      <TableWithHeader header="Diaper Records" tableHeader={diaperTableContent.header} rows={diaperTableContent.rows} />
-      <TableWithHeader header="Sleep Records" tableHeader={sleepTableContent.header} rows={sleepTableContent.rows} />
+      <TableWithHeader header="Feed Records" tableHeader={tableContent.feedTable.header} rows={tableContent.feedTable.rows} />
+      <TableWithHeader header="Diaper Records" tableHeader={tableContent.diaperTable.header} rows={tableContent.diaperTable.rows} />
+      <TableWithHeader header="Sleep Records" tableHeader={tableContent.sleepTable.header} rows={tableContent.sleepTable.rows} />
     </>
   )
 }
@@ -93,9 +102,13 @@ function createSleepRecordTable(recs: SleepRecord[]): TableContent {
 }
 
 function formatTime(timeStr: string): string {
+  if (timeStr === '') {
+    return '-'
+  }
+
   const parsed = Date.parse(timeStr)
   const time = new Date(parsed)
-  return `${time.getMonth()}/${time.getDate()}/${time.getFullYear()} ` +
+  return `${time.getMonth() + 1}/${time.getDate()}/${time.getFullYear()} ` +
     `${PadZero(time.getHours())}:${PadZero(time.getMinutes())}`
 }
 
