@@ -9,9 +9,11 @@ interface Props {
   items: Selection[]
   handleChange: (e: ChangeEvent<HTMLSelectElement>) => void
   label?: string
+  selected?: string
 }
 
-const SelectInput = ({ items, handleChange, label }: Props) => {
+const SelectInput = ({ items, handleChange, label, selected }: Props) => {
+  const selectedVal = typeof selected === 'undefined' ? items[0].val : selected
   return (
     <div className="row g-3 align-items-center justify-content-center">
       <div className="col-7">
@@ -20,9 +22,13 @@ const SelectInput = ({ items, handleChange, label }: Props) => {
           aria-label="Default select example"
           onChange={(e) => { handleChange(e) }}>
           {
-            items.map((item, idx) => (
-              <option key={idx} value={item.val}>{item.txt}</option>
-            ))
+            items.map((item, idx) => {
+              if (item.val === selectedVal) {
+                return <option key={idx} value={item.val} selected>{item.txt}</option>
+              }
+
+              return <option key={idx} value={item.val}>{item.txt}</option>
+            })
           }
         </select>
       </div>

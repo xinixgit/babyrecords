@@ -49,8 +49,8 @@ const TimeInput = ({ handleTimeInputChange }: Props) => {
 
   const handleHrChange = (e: ChangeEvent<HTMLSelectElement>) => {
     let hr = parseInt(e.target.value)
-    if (amPm === PM) {
-      hr = (hr + 12) % 12
+    if (hr < 12 && amPm === PM) {
+      hr += 12
     }
 
     const time = new Date(
@@ -61,6 +61,9 @@ const TimeInput = ({ handleTimeInputChange }: Props) => {
       inputTime.getMinutes()
     )
     setInputTime(time)
+    if (hr == 12) {
+      setAmPm(PM)
+    }
     handleTimeInputChange(time)
   }
 
@@ -108,7 +111,7 @@ const TimeInput = ({ handleTimeInputChange }: Props) => {
     <>
       <SelectInput handleChange={handleHrChange} items={hrInputs} label='时' />
       <SelectInput handleChange={handleMinChange} items={minInputs} label='分' />
-      <SelectInput handleChange={handleAmPmChange} items={amPmInputs} />
+      <SelectInput handleChange={handleAmPmChange} items={amPmInputs} selected={amPm} />
     </>
   )
 }

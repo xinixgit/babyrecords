@@ -47,9 +47,9 @@ function parseStartTime(startTime: string): string {
 
   const epoch = Date.parse(startTime)
   const time = new Date(epoch)
-  const amPm = time.getHours() < 12 ? AM : PM
-  const hr = time.getHours() % 12
-  return PadZero(hr) + ':' + PadZero(time.getMinutes()) + ' ' + amPm
+  const hr = time.getHours()
+  const amPm = hr < 12 ? AM : PM
+  return PadZero(hr > 12 ? hr % 12 : hr) + ':' + PadZero(time.getMinutes()) + ' ' + amPm
 }
 
 export default SleepEnd
