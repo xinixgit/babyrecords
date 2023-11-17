@@ -27,7 +27,7 @@ function App() {
       <CurrentContext.Provider value={emptyContext}>
         <BrowserRouter>
           <Routes>
-            <Route index element={<HomePage />} />
+            <Route path="/" element={<HomePage />} />
             <Route path="/feed" element={<Feed />} />
             <Route path="/diaper" element={<Diaper />} />
             <Route path="/sleep" element={<SleepStart />} />

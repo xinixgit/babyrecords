@@ -16,7 +16,7 @@ services:
     depends_on:
       postgres:
         condition: service_started
-      migration:
+      dbmigration:
         condition: service_completed_successfully
     ports:
       - ${svcportbinding}
@@ -40,9 +40,10 @@ services:
         ipv4_address: "10.50.0.10"
     restart: unless-stopped
 
-  migration:
-    image: babyrecord-svc:latest
-    command: psql -h "10.50.0.10" -U ${dbusr} -d ${dbname} -w -f /usr/src/app/db.sql
+  dbmigration:
+    build:
+      dockerfile: ./dbmigration.Dockerfile
+    image: babyrecord-dbmigration
     environment:
       - dbusr
       - dbname
