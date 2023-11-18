@@ -33,19 +33,19 @@ const Dashboard = () => {
         refreshTableContent(date, setTableContent)
       }} />
       <TableWithHeader
-        header="Feed Records"
+        header="喂食记录"
         tableHeader={tableContent.feedTable.header}
         rows={tableContent.feedTable.rows}
         aggregate={aggregateFeedRecords}
       />
       <TableWithHeader
-        header="Diaper Records"
+        header="尿布记录"
         tableHeader={tableContent.diaperTable.header}
         rows={tableContent.diaperTable.rows}
         aggregate={(rows) => rows.length + ' 次'}
       />
       <TableWithHeader
-        header="Sleep Records"
+        header="睡眠记录"
         tableHeader={tableContent.sleepTable.header}
         rows={tableContent.sleepTable.rows}
         aggregate={aggregateSleepRecords}
@@ -112,7 +112,7 @@ function aggregateSleepRecords(rows: string[][]): string {
     sum += min
   }
 
-  return `${sum} 分钟`
+  return `${Math.floor(sum / 60)} 小时 ${sum % 60} 分钟`
 }
 
 function createFeedRecordTable(recs: FeedRecord[]): TableContent {
@@ -140,7 +140,7 @@ function createFeedRecordTable(recs: FeedRecord[]): TableContent {
 
 function createDiaperRecordTable(recs: DiaperRecord[]): TableContent {
   const header = [
-    "size",
+    "type",
     "time"
   ]
 

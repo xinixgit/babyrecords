@@ -61,7 +61,8 @@ const TimeInput = ({ handleTimeInputChange }: Props) => {
       inputTime.getMinutes()
     )
     setInputTime(time)
-    if (hr == 12) {
+
+    if (changeToPM(hr, amPm)) {
       setAmPm(PM)
     }
     handleTimeInputChange(time)
@@ -114,6 +115,19 @@ const TimeInput = ({ handleTimeInputChange }: Props) => {
       <SelectInput handleChange={handleAmPmChange} items={amPmInputs} selected={amPm} />
     </>
   )
+}
+
+function changeToPM(hrInput: number, amPm: string): boolean {
+  if (amPm === PM) {
+    return false
+  }
+
+  if (hrInput === 12) {
+    return true
+  }
+
+  const hrNow = new Date().getHours()
+  return hrNow > 12 && hrInput <= (hrNow % 12)
 }
 
 export default TimeInput

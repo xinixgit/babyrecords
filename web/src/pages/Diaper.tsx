@@ -1,6 +1,6 @@
 import { ChangeEvent, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
-import { S, M, L } from '../Model'
+import { No1, No2 } from '../Model'
 import { CurrentContext } from '../App';
 import Form from '../components/Form'
 import SelectInput from '../components/SelectInput';
@@ -10,16 +10,12 @@ const Diaper = () => {
   const ctx = useContext(CurrentContext)
   const items = [
     {
-      val: S,
-      txt: "小"
+      val: No1,
+      txt: No1
     },
     {
-      val: M,
-      txt: "中"
-    },
-    {
-      val: L,
-      txt: "大"
+      val: No2,
+      txt: No2
     }
   ]
 

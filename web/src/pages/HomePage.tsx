@@ -17,7 +17,7 @@ export default function HomePage() {
     <div className="giant-font">
       <div className="row align-items-center justify-content-center">
         <div className="col col-8">
-          <GiantButton name='喂奶' styleClass='btn-primary' onClick={() => { handleClick(RecordTypeFeed); }} />
+          <GiantButton name='喂食' styleClass='btn-primary' onClick={() => { handleClick(RecordTypeFeed); }} />
         </div>
       </div>
       <div className="row align-items-center justify-content-center">

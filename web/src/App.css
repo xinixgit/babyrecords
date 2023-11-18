@@ -2,6 +2,10 @@
   padding-top: 20%;
 }
 
+.babyrecord-container .react-datepicker-wrapper {
+  padding: 10px
+}
+
 .giant-square {
   width: 100%;
   height: 220px;
@@ -19,7 +23,8 @@
   margin-bottom: 20px;
 }
 
-.giant-font div {
+.giant-font div,
+.giant-font a {
   font-size: 2em;
 }
 

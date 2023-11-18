@@ -7,6 +7,8 @@ export const PM = 'pm'
 export const S = 'S'
 export const M = 'M'
 export const L = 'L'
+export const No1 = '尿尿'
+export const No2 = '便便'
 
 export const SUCCESS = "success"
 

@@ -9,6 +9,7 @@ import Ack from './pages/Ack'
 import Dashboard from './pages/Dashboard'
 import { Context } from './Model'
 import Diaper from './pages/Diaper';
+import NavBar from './components/NavBar'
 
 const emptyContext: Context = {
   type: '',
@@ -24,6 +25,7 @@ export const CurrentContext = createContext(emptyContext);
 function App() {
   return (
     <div className="container text-center babyrecord-container">
+      <NavBar />
       <CurrentContext.Provider value={emptyContext}>
         <BrowserRouter>
           <Routes>
