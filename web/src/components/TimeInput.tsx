@@ -53,6 +53,13 @@ const TimeInput = ({ handleTimeInputChange }: Props) => {
       hr += 12
     }
 
+    if (changeToPM(hr, amPm)) {
+      if (hr < 12) {
+        hr += 12
+      }
+      setAmPm(PM)
+    }
+
     const time = new Date(
       inputTime.getFullYear(),
       inputTime.getMonth(),
@@ -61,10 +68,6 @@ const TimeInput = ({ handleTimeInputChange }: Props) => {
       inputTime.getMinutes()
     )
     setInputTime(time)
-
-    if (changeToPM(hr, amPm)) {
-      setAmPm(PM)
-    }
     handleTimeInputChange(time)
   }
 

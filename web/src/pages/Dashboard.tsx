@@ -132,6 +132,10 @@ function createFeedRecordTable(recs: FeedRecord[]): TableContent {
     ]
   })
 
+  if (rows.length > 0) {
+    rows.sort((a, b) => (a[3].localeCompare(b[3])))
+  }
+
   return {
     header: header,
     rows: rows
@@ -151,6 +155,10 @@ function createDiaperRecordTable(recs: DiaperRecord[]): TableContent {
     ]
   })
 
+  if (rows.length > 0) {
+    rows.sort((a, b) => (a[1].localeCompare(b[1])))
+  }
+
   return {
     header: header,
     rows: rows
@@ -169,6 +177,10 @@ function createSleepRecordTable(recs: SleepRecord[]): TableContent {
       typeof rec.end_time === 'undefined' ? '' : formatTime(rec.end_time)
     ]
   })
+
+  if (rows.length > 0) {
+    rows.sort((a, b) => (a[0].localeCompare(b[0])))
+  }
 
   return {
     header: header,
