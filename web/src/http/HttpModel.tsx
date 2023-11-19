@@ -1,4 +1,5 @@
 export interface FeedRecord {
+  id?: string
   type: string
   vol: number
   unit: string
@@ -6,12 +7,13 @@ export interface FeedRecord {
 }
 
 export interface DiaperRecord {
+  id?: string
   size: string
   time: string
 }
 
 export interface SleepRecord {
-  id?: number
+  id?: string
   start_time: string
   end_time?: string
 }

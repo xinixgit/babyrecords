@@ -1,38 +1,65 @@
-interface Props {
-  header: string
-  tableHeader: string[]
-  rows: string[][]
-  aggregate: (rows: string[][]) => string
+export interface Row {
+  id: string
+  data: string[]
 }
 
-const TableWithHeader = ({ header, tableHeader, rows, aggregate }: Props) => {
+export interface TableContent {
+  header: string[]
+  rows: Row[]
+  aggFn?: (rows: Row[]) => string
+}
+
+interface Props {
+  pageHeader: string
+  table: TableContent
+  onDelete?: (id: string) => void
+}
+
+const TableWithHeader = ({ pageHeader, table, onDelete }: Props) => {
   return (
     <>
-      <h1>{header}</h1>
-      <table className="table table-striped">
+      <h1>{pageHeader}</h1>
+      <table className="table table-striped dashboard-table">
         <thead>
           <tr>
             {
-              tableHeader.map((col, idx) => (
+              table.header.map((col, idx) => (
                 <th scope="col" key={idx}>{col}</th>
               ))
             }
+            <th />
           </tr>
         </thead>
         <tbody>
           {
-            rows.map((row, rowIdx) => (
+            table.rows.map((row, rowIdx) => (
               <tr key={'tr' + rowIdx}>
                 {
-                  row.map((col, colIdx) => (
+                  row.data.map((col, colIdx) => (
                     <td key={rowIdx + '.' + colIdx}>{col}</td>
                   ))
+                }
+                {
+                  typeof onDelete !== 'undefined' &&
+                  <td>
+                    <button
+                      className="btn btn-dashboard btn-danger"
+                      onClick={() => onDelete(row.id)}
+                    >
+                      <i className="bi bi-trash3"></i>
+                    </button>
+                  </td>
                 }
               </tr>
             ))
           }
           <tr>
-            <td className="summary" colSpan={header.length}><span>总结:</span> {aggregate(rows)}</td>
+            {
+              typeof table.aggFn !== 'undefined' &&
+              <td className="summary" colSpan={table.header.length + 1}>
+                <span>总结:</span> {table.aggFn(table.rows)}
+              </td>
+            }
           </tr>
         </tbody>
       </table>

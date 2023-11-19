@@ -131,3 +131,19 @@ func validate(req model.CreateRecordRequest) error {
 	}
 	return nil
 }
+
+func (h *RecordHandler) DeleteRecord(c *gin.Context) {
+	var req model.DeleteRecordRequest
+	if err := c.BindJSON(&req); err != nil {
+		// status is set automatically
+		log.Printf("unable to parse req: %s", err)
+		return
+	}
+	err := h.Repo.DeleteRecord(req.ID)
+	if err != nil {
+		log.Printf("unable to delete record: %s", err)
+		c.JSON(http.StatusInternalServerError, err_internalerr)
+		return
+	}
+	c.JSON(http.StatusOK, "")
+}

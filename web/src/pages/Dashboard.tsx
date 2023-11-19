@@ -1,87 +1,84 @@
 import TableWithHeader from '../components/TableWithHeader'
+import { TableContent, Row } from '../components/TableWithHeader'
 import { DiaperRecord, FeedRecord, SleepRecord } from '../http/HttpModel'
-import { GetAllRecords } from '../http/Api'
+import { GetAllRecords, DeleteRecord } from '../http/Api'
 import { useState, useEffect } from 'react';
 import { PadZero, ToDateString } from '../components/Util'
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css'
-
-
-
-interface TableContent {
-  header: string[]
-  rows: string[][]
-}
+import 'bootstrap-icons/font/bootstrap-icons.css'
 
 const Dashboard = () => {
-  const [tableContent, setTableContent] = useState({
-    feedTable: { header: [''], rows: [['']] },
-    diaperTable: { header: [''], rows: [['']] },
-    sleepTable: { header: [''], rows: [['']] }
+  const [tables, setTables] = useState({
+    feed: { header: [''], rows: [{ id: '', data: [''] }] },
+    diaper: { header: [''], rows: [{ id: '', data: [''] }] },
+    sleep: { header: [''], rows: [{ id: '', data: [''] }] }
   })
 
   useEffect(() => {
-    refreshTableContent(new Date(), setTableContent)
-  }, [setTableContent])
+    refreshTableContents(new Date(), setTables)
+  }, [setTables])
 
   const [inputDate, setInputDate] = useState(new Date());
+
+  const handleDelete = (id: string) => DeleteRecord(id, () => {
+    console.log(`id ${id} is deleted`)
+    refreshTableContents(inputDate, setTables)
+  })
 
   return (
     <>
       <DatePicker selected={inputDate} onChange={(date: Date) => {
         setInputDate(date)
-        refreshTableContent(date, setTableContent)
+        refreshTableContents(date, setTables)
       }} />
       <TableWithHeader
-        header="喂食记录"
-        tableHeader={tableContent.feedTable.header}
-        rows={tableContent.feedTable.rows}
-        aggregate={aggregateFeedRecords}
+        pageHeader="喂食记录"
+        table={tables.feed}
+        onDelete={handleDelete}
       />
       <TableWithHeader
-        header="尿布记录"
-        tableHeader={tableContent.diaperTable.header}
-        rows={tableContent.diaperTable.rows}
-        aggregate={(rows) => rows.length + ' 次'}
+        pageHeader="尿布记录"
+        table={tables.diaper}
+        onDelete={handleDelete}
       />
       <TableWithHeader
-        header="睡眠记录"
-        tableHeader={tableContent.sleepTable.header}
-        rows={tableContent.sleepTable.rows}
-        aggregate={aggregateSleepRecords}
+        pageHeader="睡眠记录"
+        table={tables.sleep}
+        onDelete={handleDelete}
       />
     </>
   )
 }
 
-function refreshTableContent(
+function refreshTableContents(
   date: Date,
-  setTableContent: (content: { feedTable: TableContent, diaperTable: TableContent, sleepTable: TableContent }) => void
+  setTables: (content: { feed: TableContent, diaper: TableContent, sleep: TableContent }) => void
 ) {
   const dateStr = ToDateString(date)
   GetAllRecords(dateStr, (data) => {
     const feedTable = createFeedRecordTable(data.feed_records)
     const diaperTable = createDiaperRecordTable(data.diaper_records)
     const sleepTable = createSleepRecordTable(data.sleep_records)
-    const _tableContent = {
-      feedTable: feedTable,
-      diaperTable: diaperTable,
-      sleepTable: sleepTable,
+    const tables = {
+      feed: feedTable,
+      diaper: diaperTable,
+      sleep: sleepTable,
     }
-    setTableContent(_tableContent)
+    setTables(tables)
   })
 }
 
-function aggregateFeedRecords(rows: string[][]): string {
+function aggregateFeedRecords(rows: Row[]): string {
   type totalType = Record<string, { vol: number, unit: string }>
   const total: totalType = {}
   for (let i = 0; i < rows.length; i++) {
-    const row = rows[i]
-    const type = row[0]
+    const rowData = rows[i].data
+    const type = rowData[0]
     if (typeof total[type] === 'undefined') {
-      total[type] = { vol: parseInt(row[1]), unit: row[2] }
+      total[type] = { vol: parseInt(rowData[1]), unit: rowData[2] }
     } else {
-      total[type].vol += parseInt(row[1])
+      total[type].vol += parseInt(rowData[1])
     }
   }
 
@@ -97,11 +94,12 @@ function aggregateFeedRecords(rows: string[][]): string {
   return str
 }
 
-function aggregateSleepRecords(rows: string[][]): string {
+function aggregateSleepRecords(rows: Row[]): string {
   let sum = 0
   for (const i in rows) {
-    const start: string = rows[i][0]
-    const end: string = rows[i][1]
+    const rowData = rows[i].data
+    const start: string = rowData[0]
+    const end: string = rowData[1]
     if (end === '') {
       continue
     }
@@ -124,21 +122,25 @@ function createFeedRecordTable(recs: FeedRecord[]): TableContent {
   ]
 
   const rows = recs.map(rec => {
-    return [
-      rec.type,
-      rec.vol.toString(),
-      rec.unit,
-      formatTime(rec.time)
-    ]
+    return {
+      id: rec.id || '',
+      data: [
+        rec.type,
+        rec.vol.toString(),
+        rec.unit,
+        formatTime(rec.time)
+      ]
+    }
   })
 
   if (rows.length > 0) {
-    rows.sort((a, b) => (a[3].localeCompare(b[3])))
+    rows.sort((a, b) => (a.data[3].localeCompare(b.data[3])))
   }
 
   return {
     header: header,
-    rows: rows
+    rows: rows,
+    aggFn: aggregateFeedRecords
   }
 }
 
@@ -149,19 +151,23 @@ function createDiaperRecordTable(recs: DiaperRecord[]): TableContent {
   ]
 
   const rows = recs.map(rec => {
-    return [
-      rec.size,
-      formatTime(rec.time)
-    ]
+    return {
+      id: rec.id || '',
+      data: [
+        rec.size,
+        formatTime(rec.time)
+      ]
+    }
   })
 
   if (rows.length > 0) {
-    rows.sort((a, b) => (a[1].localeCompare(b[1])))
+    rows.sort((a, b) => (a.data[1].localeCompare(b.data[1])))
   }
 
   return {
     header: header,
-    rows: rows
+    rows: rows,
+    aggFn: (rows) => rows.length + ' 次'
   }
 }
 
@@ -172,19 +178,23 @@ function createSleepRecordTable(recs: SleepRecord[]): TableContent {
   ]
 
   const rows = recs.map(rec => {
-    return [
-      formatTime(rec.start_time),
-      typeof rec.end_time === 'undefined' ? '' : formatTime(rec.end_time)
-    ]
+    return {
+      id: rec.id || '',
+      data: [
+        formatTime(rec.start_time),
+        typeof rec.end_time === 'undefined' ? '' : formatTime(rec.end_time)
+      ]
+    }
   })
 
   if (rows.length > 0) {
-    rows.sort((a, b) => (a[0].localeCompare(b[0])))
+    rows.sort((a, b) => (a.data[0].localeCompare(b.data[0])))
   }
 
   return {
     header: header,
-    rows: rows
+    rows: rows,
+    aggFn: aggregateSleepRecords
   }
 }
 

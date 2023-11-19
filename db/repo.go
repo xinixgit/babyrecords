@@ -48,6 +48,16 @@ func (r *Repo) UpdateSleepRecord(rec *model.SleepRecord) error {
 	return nil
 }
 
+func (r *Repo) DeleteRecord(id string) error {
+	if _, err := r.db.Exec(
+		deleteRecordByIDSql,
+		id,
+	); err != nil {
+		return fmt.Errorf("unable to delete record by id: %s: %w", id, err)
+	}
+	return nil
+}
+
 func (r *Repo) GetFeedRecords(date string) ([]model.FeedRecord, error) {
 	return getRecords(date, model.FeedRecordType, mapToFeedRecord, r.db)
 }

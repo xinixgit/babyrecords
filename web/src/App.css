@@ -46,3 +46,8 @@
 .table .summary span {
   font-weight: bold;
 }
+
+.dashboard-table .btn-dashboard {
+  --bs-btn-padding-y: 0em;
+  --bs-btn-padding-x: 0.5em;
+}

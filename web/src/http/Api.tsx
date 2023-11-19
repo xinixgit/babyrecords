@@ -42,8 +42,23 @@ export function UpdateSleepRecordEndTime(req: UpdateSleepRecordRequest, callback
     });
 }
 
+export function DeleteRecord(id: string, callback: () => void) {
+  fetch('/record', {
+    method: 'DELETE',
+    body: JSON.stringify({ id: id }),
+    headers: {
+      'Content-type': 'application/json; charset=UTF-8',
+    },
+  })
+    .then((response) => response.json())
+    .then(() => callback())
+    .catch((err) => {
+      console.log(err.message);
+    });
+}
+
 export function GetLatestSleepRecord(callback: (data: GetSleepRecordResponse) => void) {
-  fetch('/records/sleep/latest', {
+  fetch('/record/sleep/latest', {
     method: 'GET',
     headers: {
       'Content-type': 'application/json; charset=UTF-8',

@@ -18,6 +18,11 @@ const updateRecordByIDSql string = `
 	AND rec_type = $3
 `
 
+const deleteRecordByIDSql string = `
+	DELETE FROM app.baby_records
+	WHERE id = $1
+`
+
 const getRecordByTypeSql string = `
 	SELECT
 		id,

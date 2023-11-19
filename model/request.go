@@ -15,6 +15,10 @@ type UpdateSleepRecordRequest struct {
 	SleepRecord *SleepRecord `json:"sleep_record"`
 }
 
+type DeleteRecordRequest struct {
+	ID string `json:"id"`
+}
+
 type GetAllRecordsResponse struct {
 	FeedRecords  []FeedRecord   `json:"feed_records"`
 	DiaperRecord []DiaperRecord `json:"diaper_records"`
