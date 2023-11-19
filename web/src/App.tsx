@@ -1,5 +1,5 @@
 import './App.css'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { HashRouter, Routes, Route } from 'react-router-dom'
 import { createContext } from 'react';
 import HomePage from './pages/HomePage'
 import Feed from './pages/Feed'
@@ -27,7 +27,7 @@ function App() {
     <div className="container text-center babyrecord-container">
       <NavBar />
       <CurrentContext.Provider value={emptyContext}>
-        <BrowserRouter>
+        <HashRouter>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/feed" element={<Feed />} />
@@ -37,7 +37,7 @@ function App() {
             <Route path="/ack" element={<Ack />} />
             <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
-        </BrowserRouter>
+        </HashRouter>
       </CurrentContext.Provider>
     </div>
   )
