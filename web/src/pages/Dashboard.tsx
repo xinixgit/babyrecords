@@ -22,7 +22,6 @@ const Dashboard = () => {
   const [inputDate, setInputDate] = useState(new Date());
 
   const handleDelete = (id: string) => DeleteRecord(id, () => {
-    console.log(`id ${id} is deleted`)
     refreshTableContents(inputDate, setTables)
   })
 
@@ -205,8 +204,7 @@ function formatTime(timeStr: string): string {
 
   const parsed = Date.parse(timeStr)
   const time = new Date(parsed)
-  return `${time.getMonth() + 1}/${time.getDate()}/${time.getFullYear()} ` +
-    `${PadZero(time.getHours())}:${PadZero(time.getMinutes())}`
+  return `${PadZero(time.getHours())}:${PadZero(time.getMinutes())}`
 }
 
 export default Dashboard
