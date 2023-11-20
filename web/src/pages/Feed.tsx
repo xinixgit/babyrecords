@@ -30,6 +30,7 @@ const Feed = () => {
     vol: ""
   })
   const [label, setLabel] = useState(feedLabels[0])
+  const [hasChanged, setChanged] = useState(false)
 
   const handleClick = () => {
     ctx.feedVol = parseInt(input.vol)
@@ -41,6 +42,9 @@ const Feed = () => {
   const handleVolChange = (vol: string) => {
     input.vol = vol
     setInput(input)
+    if (!hasChanged && parseInt(vol) > 0) {
+      setChanged(true)
+    }
   }
 
   const handleFeedTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -51,7 +55,7 @@ const Feed = () => {
   }
 
   return (
-    <Form btnName="提交" btnStyleClass='btn-primary' onSubmit={handleClick}>
+    <Form btnName="提交" btnStyleClass='btn-primary' readyToSubmit={hasChanged} onSubmit={handleClick}>
       <SelectInput handleChange={handleFeedTypeChange} items={feedInputs} />
       <NumberInput label={label} handleChange={handleVolChange} />
     </Form>

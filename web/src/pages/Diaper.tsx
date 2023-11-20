@@ -20,7 +20,6 @@ const Diaper = () => {
   ]
 
   let input: string
-
   const handleClick = () => {
     ctx.diaperSize = input || items[0].val
     navigate("/time")
@@ -31,7 +30,7 @@ const Diaper = () => {
   }
 
   return (
-    <Form btnName="提交" btnStyleClass='btn-primary' onSubmit={handleClick}>
+    <Form btnName="提交" btnStyleClass='btn-primary' readyToSubmit={true} onSubmit={handleClick}>
       <SelectInput handleChange={handleInputChange} items={items} />
     </Form>
   )

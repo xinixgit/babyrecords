@@ -8,9 +8,13 @@ interface Props {
 
 const TimeInputForm = ({ onSubmit }: Props) => {
   const [inputTime, setInputTime] = useState(new Date())
+  const [hasChanged, setChanged] = useState(false)
 
   const handleTimeInputChange = (time: Date) => {
     setInputTime(time)
+    if (!hasChanged) {
+      setChanged(true)
+    }
   }
 
   const onFormSubmit = () => {
@@ -18,7 +22,7 @@ const TimeInputForm = ({ onSubmit }: Props) => {
   }
 
   return (
-    <Form btnName="提交" btnStyleClass='btn-primary' onSubmit={onFormSubmit}>
+    <Form btnName="提交" btnStyleClass='btn-primary' readyToSubmit={hasChanged} onSubmit={onFormSubmit}>
       <TimeInput
         handleTimeInputChange={handleTimeInputChange}
       />

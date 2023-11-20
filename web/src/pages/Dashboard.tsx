@@ -94,11 +94,12 @@ function aggregateFeedRecords(rows: Row[]): string {
 }
 
 function aggregateSleepRecords(rows: Row[]): string {
+  const date = ToDateString(new Date())
   let sum = 0
   for (const i in rows) {
     const rowData = rows[i].data
-    const start: string = rowData[0]
-    const end: string = rowData[1]
+    const start: string = date + ' ' + rowData[0]
+    const end: string = date + ' ' + rowData[1]
     if (end === '') {
       continue
     }
