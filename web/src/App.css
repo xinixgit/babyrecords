@@ -35,6 +35,18 @@
   font-size: 1em;
 }
 
+.modal-content h2 {
+  text-align: center;
+  font-size: 2em;
+  padding: 10px 10px;
+}
+
+.modal-content button {
+  font-size: 2em;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
 .status-success {
   color: green;
 }

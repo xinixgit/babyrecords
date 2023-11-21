@@ -4,9 +4,23 @@ import { DiaperRecord, FeedRecord, SleepRecord } from '../http/HttpModel'
 import { GetAllRecords, DeleteRecord } from '../http/Api'
 import { useState, useEffect } from 'react';
 import { PadZero, ToDateString } from '../components/Util'
+import Modal from 'react-modal';
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
+
+Modal.setAppElement('#root');
+
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  },
+};
 
 const Dashboard = () => {
   const [tables, setTables] = useState({
@@ -21,9 +35,17 @@ const Dashboard = () => {
 
   const [inputDate, setInputDate] = useState(new Date());
 
-  const handleDelete = (id: string) => DeleteRecord(id, () => {
-    refreshTableContents(inputDate, setTables)
-  })
+  const [isModalOpen, setModalOpen] = useState(false)
+
+  const [deleteRecord, setDeleteRecord] = useState(() => () => { })
+
+  const handleDelete = (id: string) => {
+    setModalOpen(true)
+    setDeleteRecord(() => () => DeleteRecord(id, () => {
+      refreshTableContents(inputDate, setTables)
+      setModalOpen(false)
+    }))
+  }
 
   return (
     <>
@@ -46,6 +68,17 @@ const Dashboard = () => {
         table={tables.sleep}
         onDelete={handleDelete}
       />
+      <Modal
+        isOpen={isModalOpen}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        <div className="modal-content">
+          <h2>确认删除？</h2>
+          <button type="button" className="btn btn-primary" onClick={deleteRecord}>确认</button>
+          <button type="button" className="btn btn-outline-dark" onClick={() => setModalOpen(false)}>取消</button>
+        </div>
+      </Modal>
     </>
   )
 }
