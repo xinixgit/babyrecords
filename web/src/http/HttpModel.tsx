@@ -18,11 +18,18 @@ export interface SleepRecord {
   end_time?: string
 }
 
+export interface PumpRecord {
+  id?: string
+  vol: number
+  time: string
+}
+
 export interface SaveRecordRequest {
   type: string
   feed_record?: FeedRecord
   diaper_record?: DiaperRecord
   sleep_record?: SleepRecord
+  pump_record?: PumpRecord
 }
 
 export interface UpdateSleepRecordRequest {

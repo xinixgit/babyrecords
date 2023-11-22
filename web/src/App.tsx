@@ -1,22 +1,22 @@
 import './App.css'
 import { HashRouter, Routes, Route } from 'react-router-dom'
 import { createContext } from 'react';
+import { Context } from './Model'
 import HomePage from './pages/HomePage'
 import Feed from './pages/Feed'
 import SleepStart from './pages/SleepStart'
 import Time from './pages/Time'
 import Ack from './pages/Ack'
 import Dashboard from './pages/Dashboard'
-import { Context } from './Model'
 import Diaper from './pages/Diaper';
 import NavBar from './components/NavBar'
+import Pump from './pages/Pump'
 
 const emptyContext: Context = {
   type: '',
-  feedType: '',
-  feedUnit: '',
-  feedVol: 0,
-  diaperSize: '',
+  subtype: '',
+  unit: '',
+  vol: 0,
   time: ''
 }
 
@@ -36,6 +36,7 @@ function App() {
             <Route path="/time" element={<Time />} />
             <Route path="/ack" element={<Ack />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/pump" element={<Pump />} />
           </Routes>
         </HashRouter>
       </CurrentContext.Provider>

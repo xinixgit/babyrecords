@@ -25,23 +25,21 @@ const feedLabels = [
 const Feed = () => {
   const navigate = useNavigate()
   const ctx = useContext(CurrentContext)
-  const [input, setInput] = useState({
-    type: feedInputs[0].val,
-    vol: ""
-  })
+
+  const [feedType, setFeedType] = useState(feedInputs[0].val)
+  const [vol, setVol] = useState('')
   const [label, setLabel] = useState(feedLabels[0])
   const [hasChanged, setChanged] = useState(false)
 
   const handleClick = () => {
-    ctx.feedVol = parseInt(input.vol)
-    ctx.feedType = input.type
-    ctx.feedUnit = label
+    ctx.subtype = feedType
+    ctx.vol = parseInt(vol)
+    ctx.unit = label
     navigate("/time")
   }
 
   const handleVolChange = (vol: string) => {
-    input.vol = vol
-    setInput(input)
+    setVol(vol)
     if (!hasChanged && parseInt(vol) > 0) {
       setChanged(true)
     }
@@ -49,8 +47,7 @@ const Feed = () => {
 
   const handleFeedTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const idx = e.target.selectedIndex
-    input.type = feedInputs[idx].val
-    setInput(input)
+    setFeedType(feedInputs[idx].val)
     setLabel(feedLabels[idx])
   }
 

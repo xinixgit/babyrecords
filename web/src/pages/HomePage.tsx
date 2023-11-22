@@ -2,7 +2,12 @@ import GiantButton from '../components/GiantButton'
 import { useNavigate } from "react-router-dom";
 import { useContext } from 'react';
 import { CurrentContext } from '../App';
-import { RecordTypeFeed, RecordTypeSleep, RecordTypeDiaper } from '../Model';
+import {
+  RecordTypeFeed,
+  RecordTypeSleep,
+  RecordTypeDiaper,
+  RecordTypePump
+} from '../Model';
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -32,7 +37,7 @@ export default function HomePage() {
       </div>
       <div className="row align-items-center justify-content-center">
         <div className="col col-8">
-          <GiantButton name='总览' styleClass='btn-light' onClick={() => { navigate("/dashboard") }} />
+          <GiantButton name='泵奶' styleClass='btn-light' onClick={() => { navigate(RecordTypePump) }} />
         </div>
       </div>
     </div>

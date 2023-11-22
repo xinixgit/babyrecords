@@ -21,7 +21,7 @@ const Diaper = () => {
 
   let input: string
   const handleClick = () => {
-    ctx.diaperSize = input || items[0].val
+    ctx.subtype = input || items[0].val
     navigate("/time")
   }
 

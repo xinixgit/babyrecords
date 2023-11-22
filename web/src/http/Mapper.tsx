@@ -1,5 +1,11 @@
-import { Context, RecordTypeFeed, RecordTypeSleep, RecordTypeDiaper } from '../Model'
 import { SaveRecordRequest } from './HttpModel'
+import {
+  Context,
+  RecordTypeFeed,
+  RecordTypeSleep,
+  RecordTypeDiaper,
+  RecordTypePump
+} from '../Model'
 
 export function CreateSaveRecordRequestFromContext(ctx: Context): SaveRecordRequest {
   const req: SaveRecordRequest = {
@@ -8,9 +14,9 @@ export function CreateSaveRecordRequestFromContext(ctx: Context): SaveRecordRequ
 
   if (ctx.type == RecordTypeFeed) {
     req.feed_record = {
-      type: ctx.feedType,
-      vol: ctx.feedVol,
-      unit: ctx.feedUnit,
+      type: ctx.subtype,
+      vol: ctx.vol,
+      unit: ctx.unit,
       time: ctx.time
     }
     return req
@@ -25,10 +31,17 @@ export function CreateSaveRecordRequestFromContext(ctx: Context): SaveRecordRequ
 
   if (ctx.type == RecordTypeDiaper) {
     req.diaper_record = {
-      size: ctx.diaperSize,
+      size: ctx.subtype,
       time: ctx.time
     }
     return req
+  }
+
+  if (ctx.type == RecordTypePump) {
+    req.pump_record = {
+      vol: ctx.vol,
+      time: ctx.time
+    }
   }
 
   throw new TypeError(ctx.type + ' is undefined')
