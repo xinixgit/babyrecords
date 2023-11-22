@@ -44,4 +44,5 @@ export interface GetAllRecordsResponse {
   feed_records: FeedRecord[]
   diaper_records: DiaperRecord[]
   sleep_records: SleepRecord[]
+  pump_records: PumpRecord[]
 }

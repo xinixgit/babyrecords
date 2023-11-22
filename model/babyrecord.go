@@ -50,7 +50,7 @@ type DiaperRecord struct {
 
 type PumpRecord struct {
 	ID        *string    `json:"id"`
-	Size      string     `json:"size"`
+	Vol       int        `json:"vol"`
 	Time      string     `json:"time"`
 	CreatedAt *time.Time `json:"created_at"`
 }

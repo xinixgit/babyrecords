@@ -37,7 +37,7 @@ export default function HomePage() {
       </div>
       <div className="row align-items-center justify-content-center">
         <div className="col col-8">
-          <GiantButton name='泵奶' styleClass='btn-light' onClick={() => { navigate(RecordTypePump) }} />
+          <GiantButton name='泵奶' styleClass='btn-light' onClick={() => { handleClick(RecordTypePump) }} />
         </div>
       </div>
     </div>

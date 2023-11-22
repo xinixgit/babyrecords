@@ -1,6 +1,6 @@
 import TableWithHeader from '../components/TableWithHeader'
 import { TableContent, Row } from '../components/TableWithHeader'
-import { DiaperRecord, FeedRecord, SleepRecord } from '../http/HttpModel'
+import { DiaperRecord, FeedRecord, PumpRecord, SleepRecord } from '../http/HttpModel'
 import { GetAllRecords, DeleteRecord } from '../http/Api'
 import { useState, useEffect } from 'react';
 import { PadZero, ToDateString } from '../components/Util'
@@ -26,7 +26,8 @@ const Dashboard = () => {
   const [tables, setTables] = useState({
     feed: { header: [''], rows: [{ id: '', data: [''] }] },
     diaper: { header: [''], rows: [{ id: '', data: [''] }] },
-    sleep: { header: [''], rows: [{ id: '', data: [''] }] }
+    sleep: { header: [''], rows: [{ id: '', data: [''] }] },
+    pump: { header: [''], rows: [{ id: '', data: [''] }] }
   })
 
   useEffect(() => {
@@ -53,6 +54,11 @@ const Dashboard = () => {
         setInputDate(date)
         refreshTableContents(date, setTables)
       }} />
+      <TableWithHeader
+        pageHeader="泵奶记录"
+        table={tables.pump}
+        onDelete={handleDelete}
+      />
       <TableWithHeader
         pageHeader="喂食记录"
         table={tables.feed}
@@ -85,17 +91,19 @@ const Dashboard = () => {
 
 function refreshTableContents(
   date: Date,
-  setTables: (content: { feed: TableContent, diaper: TableContent, sleep: TableContent }) => void
+  setTables: (content: { feed: TableContent, diaper: TableContent, sleep: TableContent, pump: TableContent }) => void
 ) {
   const dateStr = ToDateString(date)
   GetAllRecords(dateStr, (data) => {
     const feedTable = createFeedRecordTable(data.feed_records)
     const diaperTable = createDiaperRecordTable(data.diaper_records)
     const sleepTable = createSleepRecordTable(data.sleep_records)
+    const pumpTable = createPumpRecordTable(data.pump_records)
     const tables = {
       feed: feedTable,
       diaper: diaperTable,
       sleep: sleepTable,
+      pump: pumpTable,
     }
     setTables(tables)
   })
@@ -144,6 +152,16 @@ function aggregateSleepRecords(rows: Row[]): string {
   }
 
   return `${Math.floor(sum / 60)} 小时 ${sum % 60} 分钟`
+}
+
+function aggregatePumpRecords(rows: Row[]): string {
+  let sum = 0
+  for (let i = 0; i < rows.length; i++) {
+    const rowData = rows[i].data
+    const vol = rowData[0]
+    sum += parseInt(vol)
+  }
+  return `${sum} 毫升`
 }
 
 function createFeedRecordTable(recs: FeedRecord[]): TableContent {
@@ -228,6 +246,33 @@ function createSleepRecordTable(recs: SleepRecord[]): TableContent {
     header: header,
     rows: rows,
     aggFn: aggregateSleepRecords
+  }
+}
+
+function createPumpRecordTable(recs: PumpRecord[]): TableContent {
+  const header = [
+    "volume",
+    "time"
+  ]
+
+  const rows = recs.map(rec => {
+    return {
+      id: rec.id || '',
+      data: [
+        rec.vol.toString(),
+        formatTime(rec.time)
+      ]
+    }
+  })
+
+  if (rows.length > 0) {
+    rows.sort((a, b) => (a.data[1].localeCompare(b.data[1])))
+  }
+
+  return {
+    header: header,
+    rows: rows,
+    aggFn: aggregatePumpRecords
   }
 }
 

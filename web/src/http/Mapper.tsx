@@ -42,6 +42,7 @@ export function CreateSaveRecordRequestFromContext(ctx: Context): SaveRecordRequ
       vol: ctx.vol,
       time: ctx.time
     }
+    return req
   }
 
   throw new TypeError(ctx.type + ' is undefined')
