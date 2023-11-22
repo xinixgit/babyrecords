@@ -9,6 +9,7 @@ type CreateRecordRequest struct {
 	FeedRecord   *FeedRecord   `json:"feed_record"`
 	DiaperRecord *DiaperRecord `json:"diaper_record"`
 	SleepRecord  *SleepRecord  `json:"sleep_record"`
+	PumpRecord   *PumpRecord   `json:"pump_record"`
 }
 
 type UpdateSleepRecordRequest struct {
@@ -23,6 +24,7 @@ type GetAllRecordsResponse struct {
 	FeedRecords  []FeedRecord   `json:"feed_records"`
 	DiaperRecord []DiaperRecord `json:"diaper_records"`
 	SleepRecord  []SleepRecord  `json:"sleep_records"`
+	PumpRecord   []PumpRecord   `json:"pump_records"`
 }
 
 type GetLatestSleepRecordResponse struct {

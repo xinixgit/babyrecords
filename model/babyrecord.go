@@ -18,10 +18,11 @@ const (
 	FeedRecordType   RecordType = "feed"
 	DiaperRecordType RecordType = "diaper"
 	SleepRecordType  RecordType = "sleep"
+	PumpRecordType   RecordType = "pump"
 )
 
 type DomainRecord interface {
-	FeedRecord | SleepRecord | DiaperRecord
+	FeedRecord | SleepRecord | DiaperRecord | PumpRecord
 }
 
 type FeedRecord struct {
@@ -41,6 +42,13 @@ type SleepRecord struct {
 }
 
 type DiaperRecord struct {
+	ID        *string    `json:"id"`
+	Size      string     `json:"size"`
+	Time      string     `json:"time"`
+	CreatedAt *time.Time `json:"created_at"`
+}
+
+type PumpRecord struct {
 	ID        *string    `json:"id"`
 	Size      string     `json:"size"`
 	Time      string     `json:"time"`

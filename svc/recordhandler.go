@@ -46,10 +46,18 @@ func (h *RecordHandler) GetAllRecords(c *gin.Context) {
 		return
 	}
 
+	pumpRecs, err := h.Repo.GetPumpRecords(date)
+	if err != nil {
+		log.Printf("unable to fetch pump records: %s", err)
+		c.JSON(http.StatusInternalServerError, err_internalerr)
+		return
+	}
+
 	resp := model.GetAllRecordsResponse{
 		FeedRecords:  feedRecs,
 		DiaperRecord: diaperRecs,
 		SleepRecord:  sleepRecs,
+		PumpRecord:   pumpRecs,
 	}
 	c.JSON(http.StatusOK, resp)
 }
@@ -83,6 +91,12 @@ func (h *RecordHandler) SaveRecord(c *gin.Context) {
 		}
 	case string(model.DiaperRecordType):
 		if err := h.Repo.SaveDiaperRecord(req.DiaperRecord); err != nil {
+			log.Printf("unable to save: %s", err)
+			c.JSON(http.StatusInternalServerError, err_badrequest)
+			return
+		}
+	case string(model.PumpRecordType):
+		if err := h.Repo.SavePumpRecord(req.PumpRecord); err != nil {
 			log.Printf("unable to save: %s", err)
 			c.JSON(http.StatusInternalServerError, err_badrequest)
 			return
@@ -126,7 +140,7 @@ func (h *RecordHandler) UpdateSleepRecord(c *gin.Context) {
 }
 
 func validate(req model.CreateRecordRequest) error {
-	if req.FeedRecord == nil && req.DiaperRecord == nil && req.SleepRecord == nil {
+	if req.FeedRecord == nil && req.DiaperRecord == nil && req.SleepRecord == nil && req.PumpRecord == nil {
 		return fmt.Errorf("no record data is found on this req")
 	}
 	return nil

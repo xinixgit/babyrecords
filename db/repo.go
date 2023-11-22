@@ -31,6 +31,10 @@ func (r *Repo) SaveDiaperRecord(rec *model.DiaperRecord) error {
 	return saveRecord(model.DiaperRecordType, rec, r.db)
 }
 
+func (r *Repo) SavePumpRecord(rec *model.PumpRecord) error {
+	return saveRecord(model.PumpRecordType, rec, r.db)
+}
+
 func (r *Repo) UpdateSleepRecord(rec *model.SleepRecord) error {
 	data, err := json.Marshal(rec)
 	if err != nil {
@@ -68,6 +72,10 @@ func (r *Repo) GetSleepRecords(date string) ([]model.SleepRecord, error) {
 
 func (r *Repo) GetDiaperRecords(date string) ([]model.DiaperRecord, error) {
 	return getRecords(date, model.DiaperRecordType, mapToDiaperRecord, r.db)
+}
+
+func (r *Repo) GetPumpRecords(date string) ([]model.PumpRecord, error) {
+	return getRecords(date, model.PumpRecordType, mapToPumpRecord, r.db)
 }
 
 func (r *Repo) GetLatestSleepRecord() (*model.SleepRecord, error) {

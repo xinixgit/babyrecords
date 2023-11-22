@@ -50,3 +50,13 @@ func mapToDiaperRecord(dbRec BabyRecord) (model.DiaperRecord, error) {
 	rec.ID = &dbRec.ID
 	return rec, nil
 }
+
+func mapToPumpRecord(dbRec BabyRecord) (model.PumpRecord, error) {
+	var rec model.PumpRecord
+	if err := json.Unmarshal(dbRec.Data, &rec); err != nil {
+		return model.PumpRecord{}, fmt.Errorf("json unmarshal failed: %w", err)
+	}
+	rec.CreatedAt = &dbRec.CreatedAt
+	rec.ID = &dbRec.ID
+	return rec, nil
+}
