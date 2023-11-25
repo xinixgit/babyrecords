@@ -82,37 +82,29 @@ func (r *Repo) GetLatestSleepRecord() (*model.SleepRecord, error) {
 	return getLatestRecord(model.SleepRecordType, mapToSleepRecord, r.db)
 }
 
-func (r *Repo) GetFeedPumpSummaryBetweenDates(fromDate string, toDate string) (map[string]model.DailyVol, error) {
+func (r *Repo) GetFeedPumpSummaryBetweenDates(fromDate string, toDate string) (model.FeedAndPumpSummary, error) {
+	res := model.FeedAndPumpSummary{
+		Feed: []model.DailyVol{},
+		Pump: []model.DailyVol{},
+	}
+
 	var feedVols []VolSummary
 	if err := r.db.Select(&feedVols, getFeedSummaryBetweenDates, fromDate, toDate); err != nil {
-		return nil, fmt.Errorf("unable to select feed summary between %s and %s: %w", fromDate, toDate, err)
+		return res, fmt.Errorf("unable to select feed summary between %s and %s: %w", fromDate, toDate, err)
 	}
 
 	var pumpVols []VolSummary
 	if err := r.db.Select(&pumpVols, getPumpSummaryBetweenDates, fromDate, toDate); err != nil {
-		return nil, fmt.Errorf("unable to select pump summary between %s and %s: %w", fromDate, toDate, err)
+		return model.FeedAndPumpSummary{}, fmt.Errorf("unable to select pump summary between %s and %s: %w", fromDate, toDate, err)
 	}
 
-	res := map[string]model.DailyVol{}
 	for i := range feedVols {
 		row := feedVols[i]
-		date := row.Date
-		rec, ok := res[date]
-		if !ok {
-			rec = model.DailyVol{}
-		}
-		rec.Feed += row.Sum
-		res[date] = rec
+		res.Feed = append(res.Feed, model.DailyVol{Date: row.Date, Vol: row.Sum})
 	}
 	for i := range pumpVols {
 		row := pumpVols[i]
-		date := row.Date
-		rec, ok := res[date]
-		if !ok {
-			rec = model.DailyVol{}
-		}
-		rec.Pump += row.Sum
-		res[date] = rec
+		res.Pump = append(res.Pump, model.DailyVol{Date: row.Date, Vol: row.Sum})
 	}
 	return res, nil
 }

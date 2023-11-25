@@ -46,3 +46,7 @@ export interface GetAllRecordsResponse {
   sleep_records: SleepRecord[]
   pump_records: PumpRecord[]
 }
+
+export interface GetFeedPumpSummaryResponse {
+  summary: object
+}

@@ -11,6 +11,7 @@ import Dashboard from './pages/Dashboard'
 import Diaper from './pages/Diaper';
 import NavBar from './components/NavBar'
 import Pump from './pages/Pump'
+import FeedPumpSummary from './pages/FeedPumpSummary'
 
 const emptyContext: Context = {
   type: '',
@@ -37,6 +38,7 @@ function App() {
             <Route path="/ack" element={<Ack />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/pump" element={<Pump />} />
+            <Route path="/feedpumpsummary" element={<FeedPumpSummary />} />
           </Routes>
         </HashRouter>
       </CurrentContext.Provider>

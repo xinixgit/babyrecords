@@ -32,7 +32,3 @@ type GetAllRecordsResponse struct {
 type GetLatestSleepRecordResponse struct {
 	SleepRecord *SleepRecord `json:"sleep_record"`
 }
-
-type GetFeedPumpSummaryBetweenDatesResponse struct {
-	Summary map[string]DailyVol `json:"summary"`
-}

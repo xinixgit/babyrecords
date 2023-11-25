@@ -138,10 +138,8 @@ func (h *RecordHandler) GetFeedPumpSummaryBetweenDates(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, err_internalerr)
 		return
 	}
-	resp := model.GetFeedPumpSummaryBetweenDatesResponse{
-		Summary: summary,
-	}
-	c.JSON(http.StatusOK, resp)
+
+	c.JSON(http.StatusOK, summary)
 }
 
 func (h *RecordHandler) UpdateSleepRecord(c *gin.Context) {

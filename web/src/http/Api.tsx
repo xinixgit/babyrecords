@@ -4,7 +4,8 @@ import {
   SaveRecordRequest,
   UpdateSleepRecordRequest,
   GetSleepRecordResponse,
-  GetAllRecordsResponse
+  GetAllRecordsResponse,
+  GetFeedPumpSummaryResponse
 } from './HttpModel'
 
 import { CreateSaveRecordRequestFromContext } from './Mapper'
@@ -71,6 +72,22 @@ export function GetLatestSleepRecord(callback: (data: GetSleepRecordResponse) =>
 
 export function GetAllRecords(date: string, callback: (data: GetAllRecordsResponse) => void) {
   fetch('/records?' + new URLSearchParams({ date }), {
+    method: 'GET',
+    headers: {
+      'Content-type': 'application/json; charset=UTF-8',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => callback(data))
+    .catch((err) => console.log('err: ' + JSON.stringify(err)));
+}
+
+export function GetFeedPumpSummary(
+  fromDate: string,
+  toDate: string,
+  callback: (data: GetFeedPumpSummaryResponse) => void,
+) {
+  fetch('/record/summary/feedpump?' + new URLSearchParams({ from_date: fromDate, to_date: toDate }), {
     method: 'GET',
     headers: {
       'Content-type': 'application/json; charset=UTF-8',
