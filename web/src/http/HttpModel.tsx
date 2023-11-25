@@ -47,6 +47,12 @@ export interface GetAllRecordsResponse {
   pump_records: PumpRecord[]
 }
 
+export interface DailyVol {
+  date: string
+  vol: number
+}
+
 export interface GetFeedPumpSummaryResponse {
-  summary: object
+  feed: DailyVol[]
+  pump: DailyVol[]
 }
