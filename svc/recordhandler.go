@@ -123,6 +123,27 @@ func (h *RecordHandler) GetLatestSleepRecord(c *gin.Context) {
 	c.JSON(http.StatusOK, resp)
 }
 
+func (h *RecordHandler) GetFeedPumpSummaryBetweenDates(c *gin.Context) {
+	fromDate := c.Query(model.FromDate)
+	toDate := c.Query(model.ToDate)
+	if fromDate == "" || toDate == "" {
+		log.Printf("fromDate %s or toDate %s is empty", fromDate, toDate)
+		c.JSON(http.StatusInternalServerError, err_internalerr)
+		return
+	}
+
+	summary, err := h.Repo.GetFeedPumpSummaryBetweenDates(fromDate, toDate)
+	if err != nil {
+		log.Printf("unable to fetch feed n pump summary by dates: %s", err)
+		c.JSON(http.StatusInternalServerError, err_internalerr)
+		return
+	}
+	resp := model.GetFeedPumpSummaryBetweenDatesResponse{
+		Summary: summary,
+	}
+	c.JSON(http.StatusOK, resp)
+}
+
 func (h *RecordHandler) UpdateSleepRecord(c *gin.Context) {
 	var req model.UpdateSleepRecordRequest
 	if err := c.BindJSON(&req); err != nil {

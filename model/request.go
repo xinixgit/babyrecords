@@ -1,7 +1,9 @@
 package model
 
 const (
-	Date string = "date"
+	Date     string = "date"
+	FromDate string = "from_date"
+	ToDate   string = "to_date"
 )
 
 type CreateRecordRequest struct {
@@ -29,4 +31,8 @@ type GetAllRecordsResponse struct {
 
 type GetLatestSleepRecordResponse struct {
 	SleepRecord *SleepRecord `json:"sleep_record"`
+}
+
+type GetFeedPumpSummaryBetweenDatesResponse struct {
+	Summary map[string]DailyVol `json:"summary"`
 }

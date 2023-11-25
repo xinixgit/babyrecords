@@ -10,3 +10,8 @@ type BabyRecord struct {
 	Data       []byte    `db:"data"`
 	CreatedAt  time.Time `db:"created_at"`
 }
+
+type VolSummary struct {
+	Date string `db:"date"`
+	Sum  int    `db:"sum"`
+}

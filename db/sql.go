@@ -46,3 +46,24 @@ const getLatestRecordByTypeSql string = `
 	ORDER BY created_at DESC
 	LIMIT 1
 `
+
+const getFeedSummaryBetweenDates string = `
+	SELECT
+		TO_CHAR(DATE(created_at AT TIME ZONE 'America/Los_Angeles'), 'YYYY-MM-DD') as date,
+		SUM((data::json->>'vol')::int) as sum
+	FROM app.baby_records
+	WHERE rec_type = 'feed'
+	AND data::json->>'type' = 'milk'
+	AND DATE(created_at AT TIME ZONE 'America/Los_Angeles') BETWEEN $1 AND $2
+	GROUP BY 1
+`
+
+const getPumpSummaryBetweenDates string = `
+	SELECT
+		TO_CHAR(DATE(created_at AT TIME ZONE 'America/Los_Angeles'), 'YYYY-MM-DD') as date,
+		SUM((data::json->>'vol')::int) as sum
+	FROM app.baby_records
+	WHERE rec_type = 'pump'
+	AND DATE(created_at AT TIME ZONE 'America/Los_Angeles') BETWEEN $1 AND $2
+	GROUP BY 1
+`

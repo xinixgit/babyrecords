@@ -37,6 +37,7 @@ func main() {
 	router := gin.Default()
 	router.GET("/records", recHandler.GetAllRecords)
 	router.GET("/record/sleep/latest", recHandler.GetLatestSleepRecord)
+	router.GET("/record/summary/feedpump", recHandler.GetFeedPumpSummaryBetweenDates)
 	router.POST("/record", recHandler.SaveRecord)
 	router.PUT("/record/sleep", recHandler.UpdateSleepRecord)
 	router.DELETE("/record", recHandler.DeleteRecord)

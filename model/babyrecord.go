@@ -54,3 +54,8 @@ type PumpRecord struct {
 	Time      string     `json:"time"`
 	CreatedAt *time.Time `json:"created_at"`
 }
+
+type DailyVol struct {
+	Feed int
+	Pump int
+}
