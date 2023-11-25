@@ -39,7 +39,7 @@ const options = {
   },
 };
 
-const OneWeekInMs = 7 * 24 * 60 * 60 * 1000;
+const SixDaysInMs = 6 * 24 * 60 * 60 * 1000;
 
 ChartJS.register(
   CategoryScale,
@@ -68,7 +68,7 @@ const FeedPumpSummary = () => {
         setInputDate(date)
         refreshChart(date, setDataset)
       }} />
-      <Bar options={options} data={dataset} />
+      <Bar options={options} data={dataset} redraw={true} />
     </>
   )
 }
@@ -98,7 +98,7 @@ function refreshChart(
   today: Date,
   setDataset: (dataset: DataSet) => void
 ) {
-  const fromDate = ToDateString(new Date(today.getTime() - OneWeekInMs))
+  const fromDate = ToDateString(new Date(today.getTime() - SixDaysInMs))
   const toDate = ToDateString(today)
 
   GetFeedPumpSummary(fromDate, toDate, (data: GetFeedPumpSummaryResponse) => {
@@ -129,11 +129,17 @@ function extractData(dates: string[], volList: DailyVol[]): number[] {
   const points = []
   for (const i in dates) {
     const date = dates[i]
+    let hasValue = false
     for (const j in volList) {
       if (volList[j].date === date) {
         points.push(volList[j].vol)
-        break
+        hasValue = true
+        break;
       }
+    }
+
+    if (!hasValue) {
+      points.push(0)
     }
   }
 
