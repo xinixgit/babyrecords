@@ -10,9 +10,10 @@ import {
 } from 'chart.js';
 import { Bar } from "react-chartjs-2";
 import { GetFeedPumpSummary } from '../http/Api'
-import { DailyVol, GetFeedPumpSummaryResponse } from '../http/HttpModel'
+import { GetFeedPumpSummaryResponse } from '../http/HttpModel'
 import { ToDateString } from '../components/Util'
 import DatePicker from "react-datepicker";
+import { extractDates, extractPumpData, extractDiff } from './FeedPumpSummaryUtil'
 import 'react-datepicker/dist/react-datepicker.css'
 
 interface Series {
@@ -78,13 +79,13 @@ function generateChartData(data: GetFeedPumpSummaryResponse): DataSet {
 
   const pumpSeries = {
     label: '每日产奶量（ml）',
-    data: extractData(dates, data.pump),
+    data: extractPumpData(dates, data.pump),
     backgroundColor: 'rgba(53, 162, 235, 0.5)',
   }
 
   const feedSeries = {
-    label: '每日喂奶量（ml）',
-    data: extractData(dates, data.feed),
+    label: '每日奶差（ml）',
+    data: extractDiff(dates, data.pump, data.feed),
     backgroundColor: 'rgba(255, 99, 132, 0.5)',
   }
 
@@ -105,45 +106,6 @@ function refreshChart(
     const ds = generateChartData(data)
     setDataset(ds)
   })
-}
-
-function extractDates(data: GetFeedPumpSummaryResponse): string[] {
-  const dateMap = new Map()
-  for (const i in data.feed) {
-    dateMap.set(data.feed[i].date, 0)
-  }
-  for (const i in data.pump) {
-    dateMap.set(data.pump[i].date, 0)
-  }
-
-  const dates = []
-  for (const date of dateMap.keys()) {
-    dates.push(date)
-  }
-
-  dates.sort()
-  return dates
-}
-
-function extractData(dates: string[], volList: DailyVol[]): number[] {
-  const points = []
-  for (const i in dates) {
-    const date = dates[i]
-    let hasValue = false
-    for (const j in volList) {
-      if (volList[j].date === date) {
-        points.push(volList[j].vol)
-        hasValue = true
-        break;
-      }
-    }
-
-    if (!hasValue) {
-      points.push(0)
-    }
-  }
-
-  return points
 }
 
 export default FeedPumpSummary
