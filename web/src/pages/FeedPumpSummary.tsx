@@ -38,6 +38,7 @@ const options = {
       text: '',
     },
   },
+  base: 0
 };
 
 const SixDaysInMs = 6 * 24 * 60 * 60 * 1000;
