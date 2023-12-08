@@ -32,3 +32,20 @@ type GetAllRecordsResponse struct {
 type GetLatestSleepRecordResponse struct {
 	SleepRecord *SleepRecord `json:"sleep_record"`
 }
+
+type LoginRequest struct {
+	Password string `json:"password"`
+}
+
+type LoginResponse struct {
+	RefreshToken string `json:"refresh_token"`
+	AuthToken    string `json:"auth_token"`
+}
+
+type RefreshTokenRequest struct {
+	RefreshToken string `json:"refresh_token"`
+}
+
+type RefreshTokenResponse struct {
+	AuthToken string `json:"auth_token"`
+}

@@ -11,8 +11,9 @@ import (
 )
 
 const (
-	err_badrequest  = "bad request"
-	err_internalerr = "internal err"
+	err_badrequest   = "bad request"
+	err_internalerr  = "internal err"
+	err_unauthorized = "unauthorized"
 )
 
 type RecordHandler struct {
