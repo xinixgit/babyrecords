@@ -13,7 +13,7 @@ import { GetFeedPumpSummary } from '../http/Api'
 import { GetFeedPumpSummaryResponse } from '../http/HttpModel'
 import { ToDateString } from '../components/Util'
 import DatePicker from "react-datepicker";
-import { extractDates, extractPumpData, extractDiff } from './FeedPumpSummaryUtil'
+import { extractDates, extractPumpData } from './FeedPumpSummaryUtil'
 import AuthenticatedNode from '../components/AuthenticatedNode'
 import 'react-datepicker/dist/react-datepicker.css'
 
@@ -86,8 +86,8 @@ function generateChartData(data: GetFeedPumpSummaryResponse): DataSet {
   }
 
   const feedSeries = {
-    label: '每日奶差（ml）',
-    data: extractDiff(dates, data.pump, data.feed),
+    label: '每日喂奶量（ml）',
+    data: extractPumpData(dates, data.feed),
     backgroundColor: 'rgba(255, 99, 132, 0.5)',
   }
 
