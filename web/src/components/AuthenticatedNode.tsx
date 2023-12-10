@@ -12,7 +12,7 @@ const AuthenticatedNode = ({ children }: Props) => {
 
   useEffect(() => {
     if (!isAuthenticated()) {
-      navigate('/signin')
+      navigate('/signin', { state: { hash: window.location.hash } })
       return
     }
   }, [isAuthenticated, navigate])

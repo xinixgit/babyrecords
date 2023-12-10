@@ -1,17 +1,24 @@
 import { ChangeEvent, useState } from 'react'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Form from '../components/Form'
 import { Login } from '../http/AuthApi';
 import { useSignIn } from 'react-auth-kit'
 
 
 const SignIn = () => {
+  const location = useLocation()
   const navigate = useNavigate()
   const signIn = useSignIn()
   const [password, setPassword] = useState("")
 
   const onPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value)
+  }
+
+  let redirectTo = '/'
+  const hash = location.state['hash']
+  if (hash) {
+    redirectTo = hash.split('#')[1]
   }
 
   const onSubmit = () => {
@@ -26,7 +33,7 @@ const SignIn = () => {
           refreshTokenExpireIn: 1440
         }
       )) {
-        navigate("/dashboard")
+        navigate(redirectTo)
       }
     })
   }
