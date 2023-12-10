@@ -7,7 +7,7 @@ import {
   GetAllRecordsResponse,
   GetFeedPumpSummaryResponse
 } from './HttpModel'
-
+import { handleResponse } from './Util';
 import { CreateSaveRecordRequestFromContext } from './Mapper'
 import { Context } from '../Model'
 
@@ -21,7 +21,7 @@ export function SaveRecord(ctx: Context, callback: (data: any) => void) {
       'Content-type': 'application/json; charset=UTF-8',
     },
   })
-    .then((response) => response.json())
+    .then(handleResponse)
     .then((data) => callback(data))
     .catch((err) => {
       console.log(err.message);
@@ -36,7 +36,7 @@ export function UpdateSleepRecordEndTime(req: UpdateSleepRecordRequest, callback
       'Content-type': 'application/json; charset=UTF-8',
     },
   })
-    .then((response) => response.json())
+    .then(handleResponse)
     .then((data) => callback(data))
     .catch((err) => {
       console.log(err.message);
@@ -51,7 +51,7 @@ export function DeleteRecord(id: string, callback: () => void) {
       'Content-type': 'application/json; charset=UTF-8',
     },
   })
-    .then((response) => response.json())
+    .then(handleResponse)
     .then(() => callback())
     .catch((err) => {
       console.log(err.message);
@@ -65,7 +65,7 @@ export function GetLatestSleepRecord(callback: (data: GetSleepRecordResponse) =>
       'Content-type': 'application/json; charset=UTF-8',
     },
   })
-    .then((response) => response.json())
+    .then(handleResponse)
     .then((data) => callback(data))
     .catch((err) => console.log('err: ' + JSON.stringify(err)));
 }
@@ -77,7 +77,7 @@ export function GetAllRecords(date: string, callback: (data: GetAllRecordsRespon
       'Content-type': 'application/json; charset=UTF-8',
     },
   })
-    .then((response) => response.json())
+    .then(handleResponse)
     .then((data) => callback(data))
     .catch((err) => console.log('err: ' + JSON.stringify(err)));
 }
@@ -93,7 +93,7 @@ export function GetFeedPumpSummary(
       'Content-type': 'application/json; charset=UTF-8',
     },
   })
-    .then((response) => response.json())
+    .then(handleResponse)
     .then((data) => callback(data))
     .catch((err) => console.log('err: ' + JSON.stringify(err)));
 }

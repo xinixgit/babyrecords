@@ -4,6 +4,7 @@ import { DiaperRecord, FeedRecord, PumpRecord, SleepRecord } from '../http/HttpM
 import { GetAllRecords, DeleteRecord } from '../http/Api'
 import { useState, useEffect } from 'react';
 import { PadZero, ToDateString } from '../components/Util'
+import AuthenticatedNode from '../components/AuthenticatedNode'
 import Modal from 'react-modal';
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css'
@@ -49,7 +50,7 @@ const Dashboard = () => {
   }
 
   return (
-    <>
+    <AuthenticatedNode>
       <DatePicker selected={inputDate} onChange={(date: Date) => {
         setInputDate(date)
         refreshTableContents(date, setTables)
@@ -85,7 +86,7 @@ const Dashboard = () => {
           <button type="button" className="btn btn-outline-dark" onClick={() => setModalOpen(false)}>取消</button>
         </div>
       </Modal>
-    </>
+    </AuthenticatedNode>
   )
 }
 

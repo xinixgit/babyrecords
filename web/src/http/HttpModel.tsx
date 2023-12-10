@@ -56,3 +56,12 @@ export interface GetFeedPumpSummaryResponse {
   feed: DailyVol[]
   pump: DailyVol[]
 }
+
+export interface LoginResponse {
+  refresh_token: string
+  auth_token: string
+}
+
+export interface RefreshTokenResponse {
+  auth_token: string
+}

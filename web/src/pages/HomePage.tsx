@@ -8,6 +8,7 @@ import {
   RecordTypeDiaper,
   RecordTypePump
 } from '../Model';
+import AuthenticatedNode from '../components/AuthenticatedNode'
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -19,27 +20,29 @@ export default function HomePage() {
   }
 
   return (
-    <div className="giant-font">
-      <div className="row align-items-center justify-content-center">
-        <div className="col col-8">
-          <GiantButton name='喂食' styleClass='btn-primary' onClick={() => { handleClick(RecordTypeFeed); }} />
+    <AuthenticatedNode>
+      <div className="giant-font">
+        <div className="row align-items-center justify-content-center">
+          <div className="col col-8">
+            <GiantButton name='喂食' styleClass='btn-primary' onClick={() => { handleClick(RecordTypeFeed); }} />
+          </div>
+        </div>
+        <div className="row align-items-center justify-content-center">
+          <div className="col col-8">
+            <GiantButton name='睡眠' styleClass='btn-info' onClick={() => { handleClick(RecordTypeSleep); }} />
+          </div>
+        </div>
+        <div className="row align-items-center justify-content-center">
+          <div className="col col-8">
+            <GiantButton name='尿布' styleClass='btn-warning' onClick={() => { handleClick(RecordTypeDiaper); }} />
+          </div>
+        </div>
+        <div className="row align-items-center justify-content-center">
+          <div className="col col-8">
+            <GiantButton name='泵奶' styleClass='btn-light' onClick={() => { handleClick(RecordTypePump) }} />
+          </div>
         </div>
       </div>
-      <div className="row align-items-center justify-content-center">
-        <div className="col col-8">
-          <GiantButton name='睡眠' styleClass='btn-info' onClick={() => { handleClick(RecordTypeSleep); }} />
-        </div>
-      </div>
-      <div className="row align-items-center justify-content-center">
-        <div className="col col-8">
-          <GiantButton name='尿布' styleClass='btn-warning' onClick={() => { handleClick(RecordTypeDiaper); }} />
-        </div>
-      </div>
-      <div className="row align-items-center justify-content-center">
-        <div className="col col-8">
-          <GiantButton name='泵奶' styleClass='btn-light' onClick={() => { handleClick(RecordTypePump) }} />
-        </div>
-      </div>
-    </div>
+    </AuthenticatedNode>
   )
 }

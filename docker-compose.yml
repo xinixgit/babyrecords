@@ -13,6 +13,8 @@ services:
       - dbusr
       - dbname
       - PGPASSWORD=${dbpwd}
+      - jwtkey
+      - userpwd
     depends_on:
       postgres:
         condition: service_started

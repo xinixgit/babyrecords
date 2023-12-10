@@ -11,6 +11,6 @@ RUN go build -o /usr/local/bin/app ./
 FROM debian:bookworm-slim
 COPY --from=builder /usr/local/bin/app .
 
-CMD ./app -h ${dbhost} -P ${dbport} -d ${dbname} -u ${dbusr} -p ${PGPASSWORD} -s ${svrhost}
+CMD ./app -h ${dbhost} -P ${dbport} -d ${dbname} -u ${dbusr} -p ${PGPASSWORD} -s ${svrhost} -jwtKey ${jwtkey} -userPwd ${userpwd}
 
 # CMD ["sh", "-c", "tail -f /dev/null"]

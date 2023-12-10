@@ -6,7 +6,8 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/record': 'http://localhost:8080'
+      '/record': 'http://localhost:8080',
+      '/login': 'http://localhost:8080'
     }
   }
 })

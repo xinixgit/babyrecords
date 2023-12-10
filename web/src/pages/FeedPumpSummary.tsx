@@ -14,6 +14,7 @@ import { GetFeedPumpSummaryResponse } from '../http/HttpModel'
 import { ToDateString } from '../components/Util'
 import DatePicker from "react-datepicker";
 import { extractDates, extractPumpData, extractDiff } from './FeedPumpSummaryUtil'
+import AuthenticatedNode from '../components/AuthenticatedNode'
 import 'react-datepicker/dist/react-datepicker.css'
 
 interface Series {
@@ -65,13 +66,13 @@ const FeedPumpSummary = () => {
   }, [setDataset])
 
   return (
-    <>
+    <AuthenticatedNode>
       <DatePicker selected={inputDate} onChange={(date: Date) => {
         setInputDate(date)
         refreshChart(date, setDataset)
       }} />
       <Bar options={options} data={dataset} redraw={true} />
-    </>
+    </AuthenticatedNode>
   )
 }
 
