@@ -7,7 +7,8 @@ export default defineConfig({
   server: {
     proxy: {
       '/record': 'http://localhost:8080',
-      '/login': 'http://localhost:8080'
+      '/login': 'http://localhost:8080',
+      '/refresh': 'http://localhost:8080',
     }
   }
 })

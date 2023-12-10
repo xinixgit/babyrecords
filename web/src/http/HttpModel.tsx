@@ -59,9 +59,12 @@ export interface GetFeedPumpSummaryResponse {
 
 export interface LoginResponse {
   refresh_token: string
+  refresh_token_ttl: number
   auth_token: string
+  auth_token_ttl: number
 }
 
 export interface RefreshTokenResponse {
   auth_token: string
+  auth_token_ttl: number
 }

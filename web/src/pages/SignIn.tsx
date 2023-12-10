@@ -26,11 +26,11 @@ const SignIn = () => {
       if (signIn(
         {
           token: data.auth_token,
-          expiresIn: 10,
+          expiresIn: data.auth_token_ttl / 60,
           authState: {},
           tokenType: "Bearer",
           refreshToken: data.refresh_token,
-          refreshTokenExpireIn: 1440
+          refreshTokenExpireIn: data.refresh_token_ttl / 60,
         }
       )) {
         navigate(redirectTo)

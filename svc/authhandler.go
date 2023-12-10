@@ -42,8 +42,10 @@ func (h *AuthHandler) Login(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, model.LoginResponse{
-		AuthToken:    authToken,
-		RefreshToken: refreshToken,
+		AuthToken:       authToken,
+		AuthTokenTTL:    int(h.AuthTokenHandler.GetTokenTTL() / 1_000_000_000),
+		RefreshToken:    refreshToken,
+		RefreshTokenTTL: int(h.RefreshTokenhandler.GetTokenTTL() / 1_000_000_000),
 	})
 }
 
@@ -76,6 +78,7 @@ func (h *AuthHandler) RefreshToken(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, model.RefreshTokenResponse{
-		AuthToken: authToken,
+		AuthToken:    authToken,
+		AuthTokenTTL: int(h.AuthTokenHandler.GetTokenTTL() / 1_000_000_000),
 	})
 }

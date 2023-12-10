@@ -8,8 +8,8 @@ import (
 )
 
 const (
-	authTokenTTL    time.Duration = 5 * time.Minute
-	refreshTokenTTL time.Duration = 30 * 24 * time.Hour
+	authTokenTTL    time.Duration = 5 * time.Minute     // 5 min
+	refreshTokenTTL time.Duration = 30 * 24 * time.Hour // 30 days
 )
 
 type TokenType int
@@ -60,4 +60,8 @@ func (h *jwtTokenHandler) IsTokenValid(tokenStr string) (bool, error) {
 	}
 
 	return token.Valid, nil
+}
+
+func (h *jwtTokenHandler) GetTokenTTL() time.Duration {
+	return h.ttl
 }

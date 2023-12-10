@@ -38,8 +38,10 @@ type LoginRequest struct {
 }
 
 type LoginResponse struct {
-	RefreshToken string `json:"refresh_token"`
-	AuthToken    string `json:"auth_token"`
+	AuthToken       string `json:"auth_token"`
+	AuthTokenTTL    int    `json:"auth_token_ttl"` // ttl in seconds
+	RefreshToken    string `json:"refresh_token"`
+	RefreshTokenTTL int    `json:"refresh_token_ttl"` // ttl in seconds
 }
 
 type RefreshTokenRequest struct {
@@ -47,5 +49,6 @@ type RefreshTokenRequest struct {
 }
 
 type RefreshTokenResponse struct {
-	AuthToken string `json:"auth_token"`
+	AuthToken    string `json:"auth_token"`
+	AuthTokenTTL int    `json:"auth_token_ttl"`
 }

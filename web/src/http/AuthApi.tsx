@@ -21,10 +21,10 @@ export function Login(password: string, callback: (data: LoginResponse) => void)
 }
 
 export const RefreshApi = createRefresh({
-  interval: 10,
+  interval: 1,
   refreshApiCallback: async ({ refreshToken }) => {
     try {
-      const data: RefreshTokenResponse = await fetch('/login', {
+      const data: RefreshTokenResponse = await fetch('/refresh', {
         method: 'POST',
         body: JSON.stringify({ 'refresh_token': refreshToken }),
         headers: {
@@ -35,8 +35,7 @@ export const RefreshApi = createRefresh({
       return {
         isSuccess: true,
         newAuthToken: data.auth_token,
-        newAuthTokenExpireIn: 10,
-        newRefreshTokenExpiresIn: 60
+        newAuthTokenExpireIn: data.auth_token_ttl
       }
     }
     catch (error) {
