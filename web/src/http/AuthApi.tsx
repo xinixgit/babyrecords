@@ -21,7 +21,7 @@ export function Login(password: string, callback: (data: LoginResponse) => void)
 }
 
 export const RefreshApi = createRefresh({
-  interval: 4,
+  interval: 12 * 60, // 12 hours
   refreshApiCallback: async ({ refreshToken }) => {
     try {
       const data: RefreshTokenResponse = await fetch('/refresh', {

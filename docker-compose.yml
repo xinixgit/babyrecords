@@ -47,6 +47,7 @@ services:
       dockerfile: ./dbmigration.Dockerfile
     image: babyrecord-dbmigration
     environment:
+      - dbhost=10.50.0.10
       - dbusr
       - dbname
       - PGPASSWORD=${dbpwd}

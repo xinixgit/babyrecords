@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	authTokenTTL    time.Duration = 5 * time.Minute     // 5 min
+	authTokenTTL    time.Duration = 24 * time.Hour      // 24 hours
 	refreshTokenTTL time.Duration = 30 * 24 * time.Hour // 30 days
 )
 

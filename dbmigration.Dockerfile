@@ -11,4 +11,4 @@ RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-k
 RUN apt update
 RUN apt install -y postgresql-client
 
-CMD psql -h "10.50.0.10" -U ${dbusr} -d ${dbname} -w -f db.sql
+CMD psql -h ${dbhost} -U ${dbusr} -d ${dbname} -w -f db.sql
